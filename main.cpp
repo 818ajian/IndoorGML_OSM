@@ -14,7 +14,7 @@ using namespace std;
 using namespace rapidxml;
 int NODE_ID=-1;
 int WAY_ID=-30000;
-
+int RELATION_ID=-60000;
 class Descript{
 public:
     string name;
@@ -22,15 +22,22 @@ public:
 };
 class Relate{
 public:
-    int first_id;
-    int second_id;
+    int osm_id;
+    int indoor_gml_id_to_osm_id;
+    string osm_type;
+    string indoor_gml_type;
+    string indoorgml_id;
 };
 class Relation{
 public:
     vector<Relate*>duality;
     vector<Relate*>connect;
 };
-
+class Matching{
+public:
+    string indoorgml_id;
+    int osm_id;
+};
 class Node{
 public:
     int id;
@@ -46,6 +53,7 @@ class Way{
 public:
     vector <Node*> CellSpace;
     vector <Node*> Cellspaceboundary;
+    vector <Node*> Transition;
     vector <Descript*> Des;
     string name;
     string indoorgml_id;
@@ -54,13 +62,14 @@ public:
 
 std::vector<std::string> split(std::string& strToSplit, char delimeter);
 std::string trim(const std::string& str);
-int find_osm_way_id(vector<Way*>input,const string& indoorgml_id);
-int find_osm_node_id(vector<Node*>input,const string& indoorgml_id);
+void find_osm_id(vector<Matching*>matching, vector<Relate*>input);
 
 int main(void) {
 
     vector <Node*> node_vector;
     vector <Way*> way_vector;
+    vector <Matching*> matching_vector;
+
     Relation *relation_vector=new Relation();
     cout << "Parsing IndoorGML..." << endl;
     xml_document<> doc;
@@ -92,6 +101,7 @@ int main(void) {
         erase_space = trim(Description->value());
         Way *way_input = new Way();
         std::vector<std::string> splittedStrings = split(erase_space, ' ');
+
         for (auto it = splittedStrings.begin(); it != splittedStrings.end();) {
             if (strcmp((*it).c_str(), "") == 0) {
                 it = splittedStrings.erase(it);
@@ -125,15 +135,17 @@ int main(void) {
                 input->latitude = splittedStrings[0];
                 input->height = splittedStrings[2];
             }
-
             input->id = NODE_ID--;
             way_input->CellSpace.push_back(input);
             node_vector.push_back(input);
         }
         way_input->id = WAY_ID--;
-        way_input->indoorgml_id = CellSpace->first_attribute("gml:id")->value();
-        //cout<<CellSpace->first_attribute("gml:id")->value()<<endl;
-        //id_vector.push_back(make_pair(way_input,CellSpace->first_attribute()->value()));
+
+        Matching *mat = new Matching();
+        mat->indoorgml_id=CellSpace->first_attribute("gml:id")->value();
+        mat->osm_id=way_input->id;
+        matching_vector.push_back(mat);
+
         way_vector.push_back(way_input);
     }//CellSpace
 
@@ -155,20 +167,76 @@ int main(void) {
                 input->height = splittedStrings[2];
             }
             input->id = NODE_ID--;
-            way_input->indoorgml_id=CellSpaceBoundary->first_attribute("gml:id")->value();
             way_input->Cellspaceboundary.push_back(input);
-
             node_vector.push_back(input);
         }
+        way_input->id = WAY_ID--;
+        Matching *mat = new Matching();
+        mat->indoorgml_id=CellSpaceBoundary->first_attribute("gml:id")->value();
+        mat->osm_id=way_input->id;
+        matching_vector.push_back(mat);
         way_vector.push_back(way_input);
     }//Cellspaceboundary
+
+    for (xml_node<> * transitionMember = edges->first_node("transitionMember"); transitionMember; transitionMember = transitionMember->next_sibling("transitionMember")) {
+        xml_node<> * Transition = transitionMember->first_node("Transition");
+        xml_node<> * geometry = Transition->first_node("geometry");
+        xml_node<> * LineString = geometry->first_node("gml:LineString");
+        xml_node<> * pos =  LineString->first_node("gml:pos");
+        xml_node<> * connects = Transition->first_node("connects");
+        xml_node<> * duality = Transition->first_node("duality");
+
+        string erase_space = trim(pos->value());
+        std::vector<std::string> splittedStrings = split(erase_space, ' ');
+
+        Way * way_input=new Way();
+        way_input->indoorgml_id =Transition->first_attribute("gml:id")->value();
+
+        for(xml_node<> * pos = LineString->first_node("gml:pos"); pos; pos = pos->next_sibling("gml:pos")){
+            string erase_space = trim(pos->value());
+            std::vector<std::string> splittedStrings = split(erase_space, ' ');
+            Node* input = new Node();
+            for(int i = 0; i < splittedStrings.size() ; i++){
+                input->longitude = splittedStrings[1];
+                input->latitude = splittedStrings[0];
+                input->height = splittedStrings[2];
+            }
+            input->id = NODE_ID--;
+            way_input->Cellspaceboundary.push_back(input);
+            node_vector.push_back(input);
+        }
+        way_input->id = WAY_ID--;
+        way_vector.push_back(way_input);
+
+
+        if(duality!=NULL) {
+            Relate *relation_input= new Relate();
+            relation_input->osm_id = way_input->id;
+            relation_input->indoorgml_id = duality->first_attribute("xlink:href")->value();
+            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_vector->duality.push_back(relation_input);
+        }
+        for(connects;connects;connects=connects->next_sibling("connects")){
+            Relate *relation_input= new Relate();
+            relation_input->osm_id = way_input->id;
+            relation_input->indoorgml_id = connects->first_attribute("xlink:href")->value();
+            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_vector->connect.push_back(relation_input);
+        }
+
+        Matching *mat = new Matching();
+        mat->indoorgml_id=Transition->first_attribute("gml:id")->value();
+        mat->osm_id=way_input->id;
+        matching_vector.push_back(mat);
+    }//transition
 
     for (xml_node<> * stateMember = nodes->first_node("stateMember"); stateMember; stateMember = stateMember->next_sibling("stateMember")) {
         xml_node<> * State = stateMember->first_node("State");
         xml_node<> * geometry = State->first_node("geometry");
         xml_node<> * Point = geometry->first_node("gml:Point");
         xml_node<> * pos =  Point->first_node("gml:pos");
-
+        xml_node<> * duality =  State->first_node("duality");
+        xml_node<> * connects =  State->first_node("connects");
         string erase_space = trim(pos->value());
         std::vector<std::string> splittedStrings = split(erase_space, ' ');
         Node* input = new Node();
@@ -179,54 +247,31 @@ int main(void) {
         }
         input->indoorgml_id = State->first_attribute("gml:id")->value();
         input->id = NODE_ID--;
-        Relation * relate_input= new Relation();
-        for(xml_node<> * duality = State->first_node("duality");duality; duality = duality->next_sibling("duality")){
-            Relate * element_input= new Relate();
-            element_input->first_id= find_osm_way_id(way_vector,duality->first_attribute()->value());
-            element_input->second_id=input->id;
-            relation_vector->duality.push_back(element_input);
-        }//duality relation make
 
-        for(xml_node<> * connects = State->first_node("connects");connects; connects = connects->next_sibling("connects")){
-            Relate * element_input= new Relate();
-            element_input->first_id = find_osm_node_id(node_vector,connects->first_attribute()->value());
-            element_input->second_id = input->id;
-            relation_vector->connect.push_back(element_input);//transition 아직 입력 안됨
+        if(duality!=NULL) {
+            Relate *relation_input= new Relate();
+            relation_input->osm_id = input->id;
+            relation_input->indoorgml_id = duality->first_attribute("xlink:href")->value();
+            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_vector->duality.push_back(relation_input);
         }
+        for(connects;connects;connects=connects->next_sibling("connects")){
+            Relate *relation_input= new Relate();
+            relation_input->osm_id = input->id;
+            relation_input->indoorgml_id = connects->first_attribute("xlink:href")->value();
+            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_vector->connect.push_back(relation_input);
+        }
+        Matching *mat = new Matching();
+        mat->indoorgml_id=State->first_attribute("gml:id")->value();
+        mat->osm_id=input->id;
+        matching_vector.push_back(mat);
         node_vector.push_back(input);
     }//state
 
-    for (xml_node<> * transitionMember = edges->first_node("transitionMember"); transitionMember; transitionMember = transitionMember->next_sibling("transitionMember")) {
-        xml_node<> * Transition = transitionMember->first_node("Transition");
-        xml_node<> * geometry = Transition->first_node("geometry");
-        xml_node<> * LineString = geometry->first_node("gml:LineString");
-        xml_node<> * pos =  LineString->first_node("gml:pos");
+    find_osm_id(matching_vector,relation_vector->connect);
+    find_osm_id(matching_vector,relation_vector->duality);
 
-        string erase_space = trim(pos->value());
-        std::vector<std::string> splittedStrings = split(erase_space, ' ');
-        Node* input = new Node();
-        for(int i = 0; i < splittedStrings.size() ; i++){
-            input->longitude = splittedStrings[1];
-            input->latitude = splittedStrings[0];
-            input->height = splittedStrings[2];
-        }
-        input->id = NODE_ID--;
-        Relation * relate_input= new Relation();
-//        for(xml_node<> * duality = Transition->first_node("duality");duality; duality = duality->next_sibling("duality")){
-//            Relate * element_input= new Relate();
-//            element_input->first_id= find_osm_way_id(way_vector,duality->first_attribute()->value());
-//            element_input->second_id=input->id;
-//            relation_vector->duality.push_back(element_input);
-//        }//duality relation make
-//
-//        for(xml_node<> * connects = Transition->first_node("connects");connects; connects = connects->next_sibling("connects")){
-//            Relate * element_input= new Relate();
-//            element_input->first_id = find_osm_way_id(way_vector,connects->first_attribute()->value());
-//            element_input->second_id = input->id;
-//            relation_vector->connect.push_back(element_input);
-//        }
-        node_vector.push_back(input);
-    }//transition
 
     doc.clear();
     xml_document<> doc1;
@@ -257,12 +302,10 @@ int main(void) {
     }
 
     for(auto iter=way_vector.begin();iter!=way_vector.end();++iter){
-
         xml_node<> *way  = doc1.allocate_node(rapidxml::node_element, "way");
         way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string((*iter)->id).c_str())));
         way->append_attribute(doc1.allocate_attribute("action", "modify"));
         way->append_attribute(doc1.allocate_attribute("visible", "true"));
-
         for(int i=0;i < (*iter)->CellSpace.size(); i++) {
             xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
             nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->CellSpace[i]->id).c_str())));
@@ -274,12 +317,12 @@ int main(void) {
             nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->Cellspaceboundary[i]->id).c_str())));
             way->append_node(nd);
         }//CellspaceBoundary
-
-        xml_node<> *tag  = doc1.allocate_node(rapidxml::node_element, "tag");
-        tag->append_attribute(doc1.allocate_attribute("k", "name"));
-        tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string(((*iter)->name).c_str())));
-        way->append_node(tag);
-
+        if((*iter)->name!="") {
+            xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
+            tag->append_attribute(doc1.allocate_attribute("k", "name"));
+            tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string(((*iter)->name).c_str())));
+            way->append_node(tag);
+        }
         for(int i=0; i<(*iter)->Des.size();i++){
             xml_node<> *tag  = doc1.allocate_node(rapidxml::node_element, "tag");
             tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(((*iter)->Des[i]->name).c_str())));
@@ -289,12 +332,47 @@ int main(void) {
         root->append_node(way);
     }
 
-    for(auto iter=relation_vector->duality.begin();iter!=relation_vector->duality.end();++iter){
-        cout<<(*iter)->first_id<< "  "<<(*iter)->second_id<<" duality"<<endl;
+
+    for(auto iter = relation_vector->duality.begin(); iter!=relation_vector->duality.end(); ++iter){
+        xml_node<> *relation  = doc1.allocate_node(rapidxml::node_element, "relation");
+        xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
+        relation->append_attribute(doc1.allocate_attribute("action", "modify"));
+        relation->append_attribute(doc1.allocate_attribute("visible", "true"));
+        relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(RELATION_ID--).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", "duality"));
+        relation->append_node(member);
+        member  = doc1.allocate_node(rapidxml::node_element, "member");
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->indoor_gml_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->indoor_gml_id_to_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", "duality"));
+        relation->append_node(member);
+        root->append_node(relation);
+    }//DUALITY RELATION
+
+    for(auto iter = relation_vector->connect.begin(); iter!=relation_vector->connect.end(); ++iter){
+        xml_node<> *relation  = doc1.allocate_node(rapidxml::node_element, "relation");
+        xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
+        relation->append_attribute(doc1.allocate_attribute("action", "modify"));
+        relation->append_attribute(doc1.allocate_attribute("visible", "true"));
+        relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(RELATION_ID--).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", "connects"));
+        relation->append_node(member);
+        member  = doc1.allocate_node(rapidxml::node_element, "member");
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->indoor_gml_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->indoor_gml_id_to_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", "connects"));
+        relation->append_node(member);
+        root->append_node(relation);
     }
-    for(auto iter=relation_vector->connect.begin();iter!=relation_vector->connect.end();++iter){
-        cout<<(*iter)->first_id<< "  "<<(*iter)->second_id<<" connects"<<endl;
-    }
+
+
+
+//    for(auto iter=matching_vector.begin();iter!=matching_vector.end();++iter)
+//        cout<<(*iter)->indoorgml_id<<" "<<(*iter)->osm_id<<endl;
 
     ofstream file_stored("stored.xml");
     file_stored << doc1;
@@ -327,19 +405,17 @@ std::string trim(const std::string& str) {
 
     return result;
 }
-int find_osm_way_id(vector<Way*>input,const string& indoorgml_id){
+
+void find_osm_id(vector<Matching*>matching, vector<Relate*>input){
     for(auto iter=input.begin();iter!=input.end();++iter){
-        if(strcmp((*iter)->indoorgml_id.c_str(),indoorgml_id.substr(1,indoorgml_id.length()-1).c_str())==0) {
-            return (*iter)->id;
+        for(auto iter_1=matching.begin();iter_1!=matching.end();++iter_1){
+            if(strcmp((*iter)->indoorgml_id.c_str(),(*iter_1)->indoorgml_id.c_str())==0){
+                (*iter)->indoor_gml_id_to_osm_id=(*iter_1)->osm_id;
+                if((*iter)->osm_id>-30000)(*iter)->osm_type="node";
+                else (*iter)->osm_type="way";
+                if((*iter)->indoor_gml_id_to_osm_id>-30000)(*iter)->indoor_gml_type="node";
+                else (*iter)->indoor_gml_type="way";
+            }
         }
     }
-    return 0 ;
-}
-int find_osm_node_id(vector<Node*>input,const string& indoorgml_id){
-    for(auto iter=input.begin();iter!=input.end();++iter){
-        if(strcmp((*iter)->indoorgml_id.c_str(),indoorgml_id.substr(1,indoorgml_id.length()-1).c_str())==0) {
-            return (*iter)->id;
-        }
-    }
-    return 0 ;
 }
