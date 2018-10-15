@@ -6,10 +6,8 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/main.cpp
+C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/Indoorgml2OSM.cpp
 iostream
--
-stdio.h
 -
 rapidxml_print.hpp
 C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/rapidxml_print.hpp
@@ -22,12 +20,6 @@ vector
 string
 -
 sstream
--
-ostream
--
-sstream
--
-stdlib.h
 -
 string.h
 -

@@ -3,6 +3,7 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
       <config projectName="IndoorGML2OSM" targetName="IndoorGML2OSM" />
+      <config projectName="IndoorGML2OSM" targetName="OSM2Indoorgml" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -12,12 +13,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b668513-0d7b-4827-9f27-ad3dabd94469" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/OSM2Indoorgml.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/313_4F_2D.gml" beforeDir="false" afterPath="$PROJECT_DIR$/313_4F_2D.gml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/objects.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/objects.a" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/objects1.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/objects1.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/stored.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/stored.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Indoorgml2OSM.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,29 +62,29 @@
     <session id="-738947427">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="5" />
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.open.time.5" value="2" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="12844" />
-          <entry key="gml" value="76" />
+          <entry key="cpp" value="18398" />
+          <entry key="gml" value="81" />
           <entry key="hpp" value="5" />
           <entry key="mm" value="97" />
-          <entry key="txt" value="46" />
-          <entry key="xml" value="6" />
+          <entry key="txt" value="85" />
+          <entry key="xml" value="63" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CMakeLists.txt" value="46" />
-          <entry key="ObjectiveC" value="12946" />
-          <entry key="PLAIN_TEXT" value="76" />
-          <entry key="XML" value="6" />
+          <entry key="CMakeLists.txt" value="85" />
+          <entry key="ObjectiveC" value="18500" />
+          <entry key="PLAIN_TEXT" value="81" />
+          <entry key="XML" value="63" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -75,27 +92,27 @@
           <entry key="IndoorGML2OSM (disassembly)" value="4" />
           <entry key="Makefile" value="2" />
           <entry key="cbp" value="1" />
-          <entry key="cmake" value="2" />
-          <entry key="cpp" value="1" />
-          <entry key="gml" value="1" />
+          <entry key="cmake" value="3" />
+          <entry key="cpp" value="4" />
+          <entry key="gml" value="2" />
           <entry key="h" value="14" />
-          <entry key="hpp" value="21" />
+          <entry key="hpp" value="23" />
           <entry key="html" value="1" />
           <entry key="iostream" value="2" />
-          <entry key="osm" value="1" />
+          <entry key="osm" value="3" />
           <entry key="txt" value="1" />
-          <entry key="xml" value="16" />
+          <entry key="xml" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeCache.txt" value="1" />
-          <entry key="CMakeLists.txt" value="2" />
+          <entry key="CMakeLists.txt" value="3" />
           <entry key="Disassembly" value="4" />
           <entry key="HTML" value="1" />
-          <entry key="ObjectiveC" value="38" />
-          <entry key="PLAIN_TEXT" value="5" />
-          <entry key="XML" value="16" />
+          <entry key="ObjectiveC" value="43" />
+          <entry key="PLAIN_TEXT" value="7" />
+          <entry key="XML" value="21" />
         </counts>
       </usages-collector>
     </session>
@@ -105,17 +122,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="35" />
+            <state relative-caret-position="152">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/OSM2Indoorgml.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="221" column="46" lean-forward="true" selection-start-line="221" selection-start-column="46" selection-end-line="221" selection-end-column="46" />
+              <folding>
+                <element signature="e#45#64#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.cpp">
+        <entry file="file://$PROJECT_DIR$/cmake-build-debug/osm2indoorgml.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="26" column="20" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+            <state relative-caret-position="190">
+              <caret line="10" column="30" lean-forward="true" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Indoorgml2OSM.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="78" selection-start-line="78" selection-end-line="78" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -124,33 +162,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/iostream">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cmake-build-debug/stored.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="2066" column="56" selection-start-line="2066" selection-start-column="56" selection-end-line="2066" selection-end-column="56" />
+            <state relative-caret-position="1225">
+              <caret line="2243" column="50" lean-forward="true" selection-start-line="2243" selection-start-column="50" selection-end-line="2243" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/cmake-build-debug/stored.osm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="806" column="46" lean-forward="true" selection-start-line="806" selection-start-column="46" selection-end-line="806" selection-end-column="46" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/313_4F_2D.gml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+            <state relative-caret-position="272">
+              <caret line="5022" column="88" lean-forward="true" selection-start-line="5022" selection-start-column="88" selection-end-line="5022" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -158,8 +191,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rapidxml.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13167">
-              <caret line="693" selection-start-line="693" selection-end-line="693" />
+            <state relative-caret-position="281">
+              <caret line="941" selection-start-line="941" selection-end-line="941" />
             </state>
           </provider>
         </entry>
@@ -175,35 +208,35 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>duality</find>
-      <find>way_inpu</find>
-      <find>way_input</find>
-      <find>gml:id</find>
-      <find>relation</find>
-      <find>first_id</find>
-      <find>way_vector.pu</find>
-      <find>way</find>
-      <find>find_</find>
-      <find>find</find>
-      <find>nodes</find>
-      <find>way_vector</find>
-      <find>relation_vector</find>
+      <find>30142</find>
+      <find>30116</find>
+      <find>795</find>
       <find>indoorgml_id</find>
-      <find>B2-REVERSE</find>
+      <find>indoorgml_type</find>
+      <find>ifstream</find>
+      <find>ofst</find>
+      <find>30112</find>
+      <find>762</find>
+      <find>-762</find>
+      <find>-30119</find>
+      <find>-798</find>
+      <find>-30036</find>
+      <find>-30159</find>
+      <find>-30080</find>
       <find>transition</find>
-      <find>//trans</find>
-      <find>//t</find>
-      <find>NULL</find>
-      <find>relation_input</find>
-      <find>Relation</find>
-      <find>name</find>
-      <find>gml:name</find>
-      <find>cellspacebou</find>
-      <find>first</find>
-      <find>state</find>
-      <find>Relate</find>
-      <find>osm_id</find>
-      <find>find_osm_id</find>
+      <find>osm_type</find>
+      <find>indoor_gml_type</find>
+      <find>Descript</find>
+      <find>ty</find>
+      <find>tag</find>
+      <find>iter</find>
+      <find>759</find>
+      <find>_pos</find>
+      <find>way_vector</find>
+      <find>Des</find>
+      <find>doc1</find>
+      <find>bound</find>
+      <find>root</find>
       <find>cout&lt;&lt;</find>
     </findStrings>
     <dirStrings>
@@ -218,12 +251,15 @@
       <list>
         <option value="$PROJECT_DIR$/beerJournal.xml" />
         <option value="$PROJECT_DIR$/main2.cpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/rapidxml_print.hpp" />
         <option value="$PROJECT_DIR$/cmake-build-debug/file_stored.xml" />
-        <option value="$PROJECT_DIR$/313_4F_2D.gml" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/313_4F_2D.gml" />
         <option value="$PROJECT_DIR$/cmake-build-debug/stored.xml" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/stored.osm" />
+        <option value="$PROJECT_DIR$/Indoorgml2OSM.cpp" />
+        <option value="$PROJECT_DIR$/OSM2Indoorgml.cpp" />
       </list>
     </option>
   </component>
@@ -246,7 +282,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -263,6 +298,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -291,13 +327,18 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.IndoorGML2OSM">
+  <component name="RunManager" selected="Application.OSM2Indoorgml">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="IndoorGML2OSM" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="IndoorGML2OSM" TARGET_NAME="IndoorGML2OSM" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="IndoorGML2OSM" RUN_TARGET_NAME="IndoorGML2OSM">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OSM2Indoorgml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="IndoorGML2OSM" TARGET_NAME="OSM2Indoorgml" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="IndoorGML2OSM" RUN_TARGET_NAME="OSM2Indoorgml">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -319,6 +360,7 @@
     <list>
       <item itemvalue="Application.Build All" />
       <item itemvalue="Application.IndoorGML2OSM" />
+      <item itemvalue="Application.OSM2Indoorgml" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -337,12 +379,13 @@
       <workItem from="1538986525906" duration="36031000" />
       <workItem from="1539218532525" duration="11689000" />
       <workItem from="1539236604691" duration="18689000" />
-      <workItem from="1539316942815" duration="6109000" />
+      <workItem from="1539316942815" duration="20748000" />
+      <workItem from="1539570081643" duration="16227000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89205000" />
+    <option name="totallyTimeSpent" value="120071000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -357,22 +400,22 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16897655" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1705757" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32899022" />
       <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.329718" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" weight="0.30911064" />
+      <window_info anchor="bottom" id="CMake" order="12" weight="0.3083605" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -547,9 +590,6 @@
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/file_stored.xml" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.xml" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/IndoorGML2OSM.osm" />
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/i686-w64-mingw32/include/string.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -567,34 +607,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rapidxml.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13167">
-          <caret line="693" selection-start-line="693" selection-end-line="693" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/stl_vector.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="390" column="6" selection-start-line="390" selection-start-column="6" selection-end-line="390" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/313_4F_2D.gml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -605,20 +621,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/OSM2Indoorgml.cpp" />
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rapidxml.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="26" column="20" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+        <state relative-caret-position="281">
+          <caret line="941" selection-start-line="941" selection-end-line="941" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/stored.osm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="806" column="46" lean-forward="true" selection-start-line="806" selection-start-column="46" selection-end-line="806" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/313_4F_2D.gml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="5022" column="88" lean-forward="true" selection-start-line="5022" selection-start-column="88" selection-end-line="5022" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/stored.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1225">
+          <caret line="2243" column="50" lean-forward="true" selection-start-line="2243" selection-start-column="50" selection-end-line="2243" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Indoorgml2OSM.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/stored.xml">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/osm2indoorgml.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="2066" column="56" selection-start-line="2066" selection-start-column="56" selection-end-line="2066" selection-end-column="56" />
+        <state relative-caret-position="190">
+          <caret line="10" column="30" lean-forward="true" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OSM2Indoorgml.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="221" column="46" lean-forward="true" selection-start-line="221" selection-start-column="46" selection-end-line="221" selection-end-column="46" />
+          <folding>
+            <element signature="e#45#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

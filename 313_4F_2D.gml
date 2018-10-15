@@ -6,7 +6,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C1">
                     <gml:description>
-                        storey : 4
+                        level : 4
                         room : office
                     </gml:description>
                     <gml:name>

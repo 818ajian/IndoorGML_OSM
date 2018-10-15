@@ -52,4 +52,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/IndoorGML2OSM.dir/DependInfo.cmake"
+  "CMakeFiles/OSM2Indoorgml.dir/DependInfo.cmake"
   )

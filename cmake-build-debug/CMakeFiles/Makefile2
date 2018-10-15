@@ -101,6 +101,43 @@ clean: CMakeFiles/IndoorGML2OSM.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/OSM2Indoorgml.dir
+
+# All Build rule for target.
+CMakeFiles/OSM2Indoorgml.dir/all:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/depend
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-debug\CMakeFiles --progress-num=3,4 "Built target OSM2Indoorgml"
+.PHONY : CMakeFiles/OSM2Indoorgml.dir/all
+
+# Include target in all.
+all: CMakeFiles/OSM2Indoorgml.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/OSM2Indoorgml.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-debug\CMakeFiles 2
+	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/OSM2Indoorgml.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles/OSM2Indoorgml.dir/rule
+
+# Convenience name for target.
+OSM2Indoorgml: CMakeFiles/OSM2Indoorgml.dir/rule
+
+.PHONY : OSM2Indoorgml
+
+# clean rule for target.
+CMakeFiles/OSM2Indoorgml.dir/clean:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/clean
+.PHONY : CMakeFiles/OSM2Indoorgml.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/OSM2Indoorgml.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.

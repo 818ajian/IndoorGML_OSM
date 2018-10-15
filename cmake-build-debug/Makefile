@@ -55,17 +55,6 @@ CMAKE_BINARY_DIR = C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-de
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\JetBrains\CLion 2018.2.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -76,6 +65,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	"C:\Program Files\JetBrains\CLion 2018.2.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -122,32 +122,72 @@ IndoorGML2OSM/fast:
 	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/build
 .PHONY : IndoorGML2OSM/fast
 
-main.obj: main.cpp.obj
+#=============================================================================
+# Target rules for targets named OSM2Indoorgml
 
-.PHONY : main.obj
+# Build rule for target.
+OSM2Indoorgml: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 OSM2Indoorgml
+.PHONY : OSM2Indoorgml
+
+# fast build rule for target.
+OSM2Indoorgml/fast:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/build
+.PHONY : OSM2Indoorgml/fast
+
+Indoorgml2OSM.obj: Indoorgml2OSM.cpp.obj
+
+.PHONY : Indoorgml2OSM.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+Indoorgml2OSM.cpp.obj:
+	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj
+.PHONY : Indoorgml2OSM.cpp.obj
 
-main.i: main.cpp.i
+Indoorgml2OSM.i: Indoorgml2OSM.cpp.i
 
-.PHONY : main.i
+.PHONY : Indoorgml2OSM.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/main.cpp.i
-.PHONY : main.cpp.i
+Indoorgml2OSM.cpp.i:
+	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.i
+.PHONY : Indoorgml2OSM.cpp.i
 
-main.s: main.cpp.s
+Indoorgml2OSM.s: Indoorgml2OSM.cpp.s
 
-.PHONY : main.s
+.PHONY : Indoorgml2OSM.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/main.cpp.s
-.PHONY : main.cpp.s
+Indoorgml2OSM.cpp.s:
+	$(MAKE) -f CMakeFiles\IndoorGML2OSM.dir\build.make CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.s
+.PHONY : Indoorgml2OSM.cpp.s
+
+OSM2Indoorgml.obj: OSM2Indoorgml.cpp.obj
+
+.PHONY : OSM2Indoorgml.obj
+
+# target to build an object file
+OSM2Indoorgml.cpp.obj:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/OSM2Indoorgml.cpp.obj
+.PHONY : OSM2Indoorgml.cpp.obj
+
+OSM2Indoorgml.i: OSM2Indoorgml.cpp.i
+
+.PHONY : OSM2Indoorgml.i
+
+# target to preprocess a source file
+OSM2Indoorgml.cpp.i:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/OSM2Indoorgml.cpp.i
+.PHONY : OSM2Indoorgml.cpp.i
+
+OSM2Indoorgml.s: OSM2Indoorgml.cpp.s
+
+.PHONY : OSM2Indoorgml.s
+
+# target to generate assembly for a file
+OSM2Indoorgml.cpp.s:
+	$(MAKE) -f CMakeFiles\OSM2Indoorgml.dir\build.make CMakeFiles/OSM2Indoorgml.dir/OSM2Indoorgml.cpp.s
+.PHONY : OSM2Indoorgml.cpp.s
 
 # Help Target
 help:
@@ -156,11 +196,15 @@ help:
 	@echo ... clean
 	@echo ... depend
 	@echo ... IndoorGML2OSM
-	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... OSM2Indoorgml
+	@echo ... edit_cache
+	@echo ... Indoorgml2OSM.obj
+	@echo ... Indoorgml2OSM.i
+	@echo ... Indoorgml2OSM.s
+	@echo ... OSM2Indoorgml.obj
+	@echo ... OSM2Indoorgml.i
+	@echo ... OSM2Indoorgml.s
 .PHONY : help
 
 

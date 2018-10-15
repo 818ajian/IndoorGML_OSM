@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/main.cpp" "C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj"
+  "C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/Indoorgml2OSM.cpp" "C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/cmake-build-debug/CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

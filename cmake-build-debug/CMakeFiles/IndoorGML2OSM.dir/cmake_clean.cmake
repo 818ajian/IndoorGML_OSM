@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj"
+  "CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj"
   "IndoorGML2OSM.pdb"
   "IndoorGML2OSM.exe"
   "IndoorGML2OSM.exe.manifest"

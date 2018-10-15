@@ -56,28 +56,28 @@ include CMakeFiles/IndoorGML2OSM.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/IndoorGML2OSM.dir/flags.make
 
-CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj: CMakeFiles/IndoorGML2OSM.dir/flags.make
-CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj: CMakeFiles/IndoorGML2OSM.dir/includes_CXX.rsp
-CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\IndoorGML2OSM.dir\main.cpp.obj -c C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\main.cpp
+CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj: CMakeFiles/IndoorGML2OSM.dir/flags.make
+CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj: CMakeFiles/IndoorGML2OSM.dir/includes_CXX.rsp
+CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj: ../Indoorgml2OSM.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\IndoorGML2OSM.dir\Indoorgml2OSM.cpp.obj -c C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\Indoorgml2OSM.cpp
 
-CMakeFiles/IndoorGML2OSM.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/IndoorGML2OSM.dir/main.cpp.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\main.cpp > CMakeFiles\IndoorGML2OSM.dir\main.cpp.i
+CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\Indoorgml2OSM.cpp > CMakeFiles\IndoorGML2OSM.dir\Indoorgml2OSM.cpp.i
 
-CMakeFiles/IndoorGML2OSM.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/IndoorGML2OSM.dir/main.cpp.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\main.cpp -o CMakeFiles\IndoorGML2OSM.dir\main.cpp.s
+CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\byeonggon\CLionProjects\IndoorGML2OSM\Indoorgml2OSM.cpp -o CMakeFiles\IndoorGML2OSM.dir\Indoorgml2OSM.cpp.s
 
 # Object files for target IndoorGML2OSM
 IndoorGML2OSM_OBJECTS = \
-"CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj"
+"CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj"
 
 # External object files for target IndoorGML2OSM
 IndoorGML2OSM_EXTERNAL_OBJECTS =
 
-IndoorGML2OSM.exe: CMakeFiles/IndoorGML2OSM.dir/main.cpp.obj
+IndoorGML2OSM.exe: CMakeFiles/IndoorGML2OSM.dir/Indoorgml2OSM.cpp.obj
 IndoorGML2OSM.exe: CMakeFiles/IndoorGML2OSM.dir/build.make
 IndoorGML2OSM.exe: CMakeFiles/IndoorGML2OSM.dir/linklibs.rsp
 IndoorGML2OSM.exe: CMakeFiles/IndoorGML2OSM.dir/objects1.rsp
