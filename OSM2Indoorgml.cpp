@@ -64,27 +64,21 @@ public:
     int longitude;
     int height;
 };
-class LinearRing{
+class PosSet{
 public:
     vector <pos*> pos;
 };
-class Exterior{
-public:
-    vector <LinearRing*> Lin;
-};
-class Interior{
-public:
-    vector <LinearRing*> Lin;
-};
+
 class Polygon{
 public:
     string id;
-    vector <Exterior*> exterior;
-    vector <Interior*> interior;
+    vector <PosSet*> exterior;
+    vector <PosSet*> interior;
 };
 class Gemetry2D{
 public:
     vector <Polygon*> polygon;
+    vector <PosSet*> Linestring;
 };
 class CellSpaceGeometry{
 public:
@@ -98,35 +92,48 @@ public:
 class Cellspace{
 public:
     int osm_id;
+    int duality_id;
+    string indoorgml_id;
+    string name;
     vector <Description*>Des;
     Way* way;
-    string name;
-    string boundedby=boundedby_value;
     CellSpaceGeometry cellspace_cellspacegeomery;
 };
 
 class CellSpaceBoundary{
 public:
+    int duality_id;
+    string indoorgml_id;
     vector <Description*>Des;
-    string name;
     Way* way;
-    string boundedby=boundedby_value;
     CellSpaceBoundaryGeometry CellSpaceBoundary_CellSpaceBoundaryGeometry;
 };
 
 class Transition{
 public:
+    int duality;
+    vector<int>connects;
+    Way* way;
     vector <Description*>Des;
     string name;
-    Way* way;
-    string boundedby=boundedby_value;
     CellSpaceBoundaryGeometry Transition_CellSpaceBoundaryGeometry;
 };
-
+class State{
+public:
+    pos State_point;
+    int duality;
+    vector<int>connects;
+};
 class PrimeSpaceFeature{
 public:
     vector<Cellspace*> Cellspace_vector;
     vector<CellSpaceBoundary*>Cellspace_boundary_vector;
+};
+
+class multiLayeredGraph{
+public:
+    vector<Transition*> Trasition_vector;
+    vector<State*>State_vector;
 };
 //indoorGML
 
@@ -140,9 +147,10 @@ int main(void){
     vector<Way*>Way_vector;
     vector<Relation*>Relation_vector;
     vector<Transition*>Transition_vector;
+    vector<PrimeSpaceFeature*>PrimeSpaceFeature_vector;
 
-    vector<Cellspace*>Cellspace_vector;
-    vector<CellSpaceBoundary*>Cellspace_boundary_vector;
+    PrimeSpaceFeature* PrimeSpaceFeature_input=new PrimeSpaceFeature();
+
 
     cout << "Parsing OSM..." ;
     xml_document<> doc;
@@ -193,12 +201,14 @@ int main(void){
                 if(strcmp(des_input->value.c_str(),"CellSpace")==0){
                     cellspace_input->way->Way_node_vector=node_input;
                     cellspace_input->way->Way_des_vector = description_input;
-                    Cellspace_vector.push_back(cellspace_input);
+                    cellspace_input->indoorgml_id="C"+to_string(Cellspace_id++);
+                    PrimeSpaceFeature_input->Cellspace_vector.push_back(cellspace_input);
                 }
                 if(strcmp(des_input->value.c_str(),"CellSpaceBoundary")==0){
                     CellSpaceBoundary_input->way->Way_node_vector=node_input;
                     CellSpaceBoundary_input->way->Way_des_vector = description_input;
-                    Cellspace_boundary_vector.push_back(CellSpaceBoundary_input);
+                    CellSpaceBoundary_input->indoorgml_id="B"+to_string(Cellspaceboundary_id++);
+                    PrimeSpaceFeature_input->Cellspace_boundary_vector.push_back(CellSpaceBoundary_input);
                 }
                 if(strcmp(des_input->value.c_str(),"Transition")==0){
                     Transition_input->way->Way_node_vector=node_input;
@@ -211,8 +221,8 @@ int main(void){
             //cout<<des_input->value<<" "<<des_input->name<<endl;
         }
     }
-
-    cout<<endl<<Cellspace_vector.size()<<endl;
+    PrimeSpaceFeature_vector.push_back(PrimeSpaceFeature_input);
+    //cout<<endl<<Cellspace_vector.size()<<endl;
 
 
 
@@ -232,7 +242,7 @@ int main(void){
     xml_node<>* xml_primalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "primalSpaceFeatures");
     xml_node<>* xml_PrimalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "PrimalSpaceFeatures");
 
-    for(auto iter=Cellspace_vector.begin();iter!=Cellspace_vector.end();++iter){
+    for(auto iter=PrimeSpaceFeature_vector[0]->Cellspace_vector.begin();iter!=PrimeSpaceFeature_vector[0]->Cellspace_vector.end();++iter){
         xml_node<>* xml_cellSpaceMember = doc1.allocate_node(rapidxml::node_element, "cellSpaceMember");
         xml_node<>* xml_CellSpace = doc1.allocate_node(rapidxml::node_element, "CellSpace");
         xml_node<>* xml_description= doc1.allocate_node(rapidxml::node_element, "gml:description");
@@ -259,9 +269,9 @@ int main(void){
         xml_Geometry2D->append_node(xml_Polygon);
         xml_cellSpaceGeometry->append_node(xml_Geometry2D);
 
+        xml_CellSpace->append_attribute(doc1.allocate_attribute("gml:id",(*iter)->indoorgml_id.c_str()));
 
         xml_name->value((*iter)->way->name.c_str());
-
         string sum="";
         for(auto iter_1=(*iter)->way->Way_des_vector.begin();iter_1!=(*iter)->way->Way_des_vector.end();++iter_1){
             string name = (*iter_1)->name;
@@ -280,7 +290,7 @@ int main(void){
     }//cellspace
 
 
-    for(auto iter=Cellspace_boundary_vector.begin();iter!=Cellspace_boundary_vector.end();++iter){
+    for(auto iter=PrimeSpaceFeature_vector[0]->Cellspace_boundary_vector.begin();iter!=PrimeSpaceFeature_vector[0]->Cellspace_boundary_vector.end();++iter){
         xml_node<>* xml_cellSpaceBoundaryMember = doc1.allocate_node(rapidxml::node_element, "cellSpaceBoundaryMember");
         xml_node<>* xml_CellSpaceBoundary = doc1.allocate_node(rapidxml::node_element, "CellSpaceBoundary");
         xml_node<>* xml_CellSpaceBoundary_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
@@ -298,7 +308,7 @@ int main(void){
             xml_pos->value(doc1.allocate_string((coordinate[0]+" "+coordinate[1]+" "+height).c_str()));
             xml_LineString->append_node(xml_pos);
         }
-
+        xml_CellSpaceBoundary->append_attribute(doc1.allocate_attribute("gml:id",(*iter)->indoorgml_id.c_str()));
         xml_Geometry2D->append_node(xml_LineString);
         xml_cellSpaceBoundaryGeometry->append_node(xml_Geometry2D);
         xml_CellSpaceBoundary->append_node(xml_cellSpaceBoundaryGeometry);
