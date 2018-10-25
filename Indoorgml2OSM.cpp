@@ -19,11 +19,13 @@ public:
 
 class Relate{
 public:
-    int osm_id;//첫번째 관계에 대한 타입
-    int indoor_gml_id_to_osm_id;//
-    string osm_type;
-    string indoor_gml_type;//2번째 관계에 대한 type indoorgml_ID -> OSM_ID로 변경됨
-    string indoorgml_id;
+    int first_osm_id;//첫번째 관계 OSM ID
+    int second_osm_id;// 두번째 관계 OSM ID
+    string first_osm_type; //첫번째 OSM Type
+    string first_indoorgml_type;
+    string second_osm_type;//2번째 관계에 대한  OSM_ID로 변경됨
+    string second_indoorgml_type;
+    string second_indoorgml_id;
 };
 class Relation{
 public:
@@ -218,27 +220,28 @@ int main(void) {
             node_vector.push_back(input);
         }
         way_input->id = WAY_ID--;
-
         Descript *des_input = new Descript();
         des_input->name = "Indoorgml";
         des_input->value = "Transition";
         way_input->Des.push_back(des_input);
 
         way_vector.push_back(way_input);
-
-
         if(duality!=NULL) {
             Relate *relation_input= new Relate();
-            relation_input->osm_id = way_input->id;
-            relation_input->indoorgml_id = duality->first_attribute("xlink:href")->value();
-            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_input->first_osm_id = way_input->id;
+            relation_input->first_indoorgml_type="transition";
+            relation_input->second_indoorgml_id = duality->first_attribute("xlink:href")->value();
+            relation_input->second_indoorgml_id = relation_input->second_indoorgml_id.substr(1, relation_input->second_indoorgml_id.length());
+            relation_input->second_indoorgml_type="CellSpaceBoundary";
             relation_vector->duality.push_back(relation_input);
         }
         for(connects;connects;connects=connects->next_sibling("connects")){
             Relate *relation_input= new Relate();
-            relation_input->osm_id = way_input->id;
-            relation_input->indoorgml_id = connects->first_attribute("xlink:href")->value();
-            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_input->first_osm_id = way_input->id;
+            relation_input->first_indoorgml_type="Transition";
+            relation_input->second_indoorgml_id = connects->first_attribute("xlink:href")->value();
+            relation_input->second_indoorgml_type="State";
+            relation_input->second_indoorgml_id = relation_input->second_indoorgml_id.substr(1, relation_input->second_indoorgml_id.length());
             relation_vector->connect.push_back(relation_input);
         }
 
@@ -267,16 +270,20 @@ int main(void) {
         input->indoorgml_id="State";
         if(duality!=NULL) {
             Relate *relation_input= new Relate();
-            relation_input->osm_id = input->id;
-            relation_input->indoorgml_id = duality->first_attribute("xlink:href")->value();
-            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_input->first_osm_id = input->id;
+            relation_input->first_indoorgml_type="State";
+            relation_input->second_indoorgml_id = duality->first_attribute("xlink:href")->value();
+            relation_input->second_indoorgml_type="CellSpace";
+            relation_input->second_indoorgml_id = relation_input->second_indoorgml_id.substr(1, relation_input->second_indoorgml_id.length());
             relation_vector->duality.push_back(relation_input);
         }
         for(connects;connects;connects=connects->next_sibling("connects")){
             Relate *relation_input= new Relate();
-            relation_input->osm_id = input->id;
-            relation_input->indoorgml_id = connects->first_attribute("xlink:href")->value();
-            relation_input->indoorgml_id = relation_input->indoorgml_id.substr(1, relation_input->indoorgml_id.length());
+            relation_input->first_osm_id = input->id;
+            relation_input->first_indoorgml_type="State";
+            relation_input->second_indoorgml_id = connects->first_attribute("xlink:href")->value();
+            relation_input->second_indoorgml_type="Transition";
+            relation_input->second_indoorgml_id = relation_input->second_indoorgml_id.substr(1, relation_input->second_indoorgml_id.length());
             relation_vector->connect.push_back(relation_input);
         }
         Matching *mat = new Matching();
@@ -325,21 +332,18 @@ int main(void) {
         way->append_attribute(doc1.allocate_attribute("action", "modify"));
         way->append_attribute(doc1.allocate_attribute("visible", "true"));
         for(int i=0;i < (*iter)->CellSpace.size(); i++) {
-            //if(i==0)way->append_attribute(doc1.allocate_attribute("Indoorgml_Type", "CellSpace"));
             xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
             nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->CellSpace[i]->id).c_str())));
             way->append_node(nd);
         }//Cellspace
 
         for(int i=0;i < (*iter)->Cellspaceboundary.size(); i++) {
-            //if(i==0)way->append_attribute(doc1.allocate_attribute("Indoorgml_Type", "Cellspaceboundary"));
             xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
             nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->Cellspaceboundary[i]->id).c_str())));
             way->append_node(nd);
         }//CellspaceBoundary
 
         for(int i=0;i < (*iter)->Transition.size(); i++) {
-            //if(i==0)way->append_attribute(doc1.allocate_attribute("Indoorgml_Type", "Transition"));
             xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
             nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->Transition[i]->id).c_str())));
             way->append_node(nd);
@@ -370,18 +374,19 @@ int main(void) {
         tag->append_attribute(doc1.allocate_attribute("k", "type"));
         tag->append_attribute(doc1.allocate_attribute("v", "duality"));
 
-
         relation->append_attribute(doc1.allocate_attribute("action", "modify"));
         relation->append_attribute(doc1.allocate_attribute("visible", "true"));
         relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(RELATION_ID--).c_str())));
 
-        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->osm_type.c_str())));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->first_osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->first_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", doc1.allocate_string((*iter)->first_indoorgml_type.c_str())));
 
         relation->append_node(member);
         member  = doc1.allocate_node(rapidxml::node_element, "member");
-        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->indoor_gml_type.c_str())));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->indoor_gml_id_to_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->second_osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->second_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", doc1.allocate_string((*iter)->second_indoorgml_type.c_str())));
 
         relation->append_node(member);
         relation->append_node(tag);
@@ -401,19 +406,20 @@ int main(void) {
         relation->append_attribute(doc1.allocate_attribute("action", "modify"));
         relation->append_attribute(doc1.allocate_attribute("visible", "true"));
 
-        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->osm_type.c_str())));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->first_osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->first_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", doc1.allocate_string((*iter)->first_indoorgml_type.c_str())));
 
         relation->append_node(member);
         member  = doc1.allocate_node(rapidxml::node_element, "member");
-        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->indoor_gml_type.c_str())));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->indoor_gml_id_to_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("type", doc1.allocate_string((*iter)->second_osm_type.c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->second_osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("role", doc1.allocate_string((*iter)->second_indoorgml_type.c_str())));
 
         relation->append_node(member);
         relation->append_node(tag);
         root->append_node(relation);
     }//CONNECT RELATION
-
 
     ofstream file_stored("stored.xml");
     file_stored << doc1;
@@ -450,12 +456,12 @@ std::string trim(const std::string& str) {
 void find_osm_id(vector<Matching*>matching, vector<Relate*>input){
     for(auto iter=input.begin();iter!=input.end();++iter){
         for(auto iter_1=matching.begin();iter_1!=matching.end();++iter_1){
-            if(strcmp((*iter)->indoorgml_id.c_str(),(*iter_1)->indoorgml_id.c_str())==0){
-                (*iter)->indoor_gml_id_to_osm_id=(*iter_1)->osm_id;
-                if((*iter)->osm_id>-30000)(*iter)->osm_type="node";
-                else (*iter)->osm_type="way";
-                if((*iter)->indoor_gml_id_to_osm_id>-30000)(*iter)->indoor_gml_type="node";
-                else (*iter)->indoor_gml_type="way";
+            if(strcmp((*iter)->second_indoorgml_id.c_str(),(*iter_1)->indoorgml_id.c_str())==0){
+                (*iter)->second_osm_id=(*iter_1)->osm_id;
+                if((*iter)->first_osm_id>-30000)(*iter)->first_osm_type="node";
+                else (*iter)->first_osm_type="way";
+                if((*iter)->second_osm_id>-30000)(*iter)->second_osm_type="node";
+                else (*iter)->second_osm_type="way";
             }
         }
     }

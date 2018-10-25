@@ -48,15 +48,13 @@ public:
     string type;
     string ref_id;
 };
+
 class Relation{
 public:
     int osm_id;
-    vector<Description*> Way_des_vector;
     vector <Member*>Member_vector;
     string type;
 };
-
-
 
 class pos{
 public:
@@ -64,77 +62,47 @@ public:
     int longitude;
     int height;
 };
-class PosSet{
-public:
-    vector <pos*> pos;
-};
-
-class Polygon{
-public:
-    string id;
-    vector <PosSet*> exterior;
-    vector <PosSet*> interior;
-};
-class Gemetry2D{
-public:
-    vector <Polygon*> polygon;
-    vector <PosSet*> Linestring;
-};
-class CellSpaceGeometry{
-public:
-    vector <Gemetry2D*> gemetry_2d;
-};
-class CellSpaceBoundaryGeometry{
-public:
-    vector <Gemetry2D*> gemetry_2d;
-};
 
 class Cellspace{
 public:
     int osm_id;
     int duality_id;
     string indoorgml_id;
-    string name;
-    vector <Description*>Des;
     Way* way;
-    CellSpaceGeometry cellspace_cellspacegeomery;
+
 };
 
 class CellSpaceBoundary{
 public:
+    int osm_id;
     int duality_id;
     string indoorgml_id;
-    vector <Description*>Des;
     Way* way;
-    CellSpaceBoundaryGeometry CellSpaceBoundary_CellSpaceBoundaryGeometry;
+
 };
 
 class Transition{
 public:
     int duality;
+    double weight=0.0;
+    string indoorgml_id;
     vector<int>connects;
     Way* way;
-    vector <Description*>Des;
-    string name;
-    CellSpaceBoundaryGeometry Transition_CellSpaceBoundaryGeometry;
 };
 class State{
 public:
-    pos State_point;
-    int duality;
+    int osm_id;
+    int duality_id;
+    Node State_point;
     vector<int>connects;
 };
+
 class PrimeSpaceFeature{
 public:
     vector<Cellspace*> Cellspace_vector;
     vector<CellSpaceBoundary*>Cellspace_boundary_vector;
 };
 
-class multiLayeredGraph{
-public:
-    vector<Transition*> Trasition_vector;
-    vector<State*>State_vector;
-};
 //indoorGML
 
 vector<string> find_coordinate(vector<Node*>Node_vector,int osm_id);
@@ -144,7 +112,8 @@ std::string trim(const std::string& str);
 
 int main(void){
     vector<Node*>Node_vector;
-    vector<Way*>Way_vector;
+    vector<State*>State_vector;
+
     vector<Relation*>Relation_vector;
     vector<Transition*>Transition_vector;
     vector<PrimeSpaceFeature*>PrimeSpaceFeature_vector;
@@ -167,7 +136,33 @@ int main(void){
         node_input->latitude=xml_node->first_attribute("lat")->value();
         node_input->longitutde=xml_node->first_attribute("lon")->value();
         Node_vector.push_back(node_input);
-    }
+    }//node
+
+
+    for (xml_node<> * xml_Relation = root_node->first_node("relation"); xml_Relation; xml_Relation = xml_Relation->next_sibling("relation")) {
+        Relation *relation_input= new Relation();
+        for (xml_node<> * xml_member = xml_Relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")) {
+            Member* member_input=new Member();
+            member_input->type=xml_member->first_attribute("type")->value();
+            member_input->ref_id=xml_member->first_attribute("ref")->value();
+            if(member_input->type=="node"){
+                State *state_input=new State();
+                state_input->osm_id=atoi(member_input->ref_id.c_str());
+                vector <string> coordinate;
+                coordinate=find_coordinate(Node_vector,atoi(member_input->ref_id.c_str()));
+                state_input->State_point.latitude=coordinate[0];
+                state_input->State_point.longitutde=coordinate[1];
+                State_vector.push_back(state_input);
+            }
+            relation_input->Member_vector.push_back(member_input);
+        }
+        xml_node<> * xml_tag=xml_Relation->first_node("tag");
+        if(strcmp(xml_tag->first_attribute("k")->value(),"type")==0) {
+            relation_input->type = xml_tag->first_attribute("v")->value();
+            Relation_vector.push_back(relation_input);
+        }
+    }//relation
+
 
     for (xml_node<> * xml_way = root_node->first_node("way"); xml_way; xml_way = xml_way->next_sibling("way")) {
         Cellspace *cellspace_input= new Cellspace();
@@ -178,6 +173,7 @@ int main(void){
         Transition_input->way=new Way();
 
         cellspace_input->osm_id = atoi(xml_way->first_attribute("id")->value());
+        CellSpaceBoundary_input->osm_id = atoi(xml_way->first_attribute("id")->value());;
         vector <Node*>node_input;
         vector<Description*>description_input;
 
@@ -201,28 +197,30 @@ int main(void){
                 if(strcmp(des_input->value.c_str(),"CellSpace")==0){
                     cellspace_input->way->Way_node_vector=node_input;
                     cellspace_input->way->Way_des_vector = description_input;
+                    cellspace_input->way->Indoorgml_type="CellSpace";
                     cellspace_input->indoorgml_id="C"+to_string(Cellspace_id++);
                     PrimeSpaceFeature_input->Cellspace_vector.push_back(cellspace_input);
                 }
                 if(strcmp(des_input->value.c_str(),"CellSpaceBoundary")==0){
                     CellSpaceBoundary_input->way->Way_node_vector=node_input;
                     CellSpaceBoundary_input->way->Way_des_vector = description_input;
+                    CellSpaceBoundary_input->way->Indoorgml_type="CellSpaceBoundary";
                     CellSpaceBoundary_input->indoorgml_id="B"+to_string(Cellspaceboundary_id++);
                     PrimeSpaceFeature_input->Cellspace_boundary_vector.push_back(CellSpaceBoundary_input);
                 }
                 if(strcmp(des_input->value.c_str(),"Transition")==0){
                     Transition_input->way->Way_node_vector=node_input;
                     Transition_input->way->Way_des_vector = description_input;
+                    Transition_input->way->Indoorgml_type="Transition";
+                    Transition_input->indoorgml_id="T"+to_string(Cellspaceboundary_id++);
                     Transition_vector.push_back(Transition_input);
                 }
                 continue;
             }
             description_input.push_back(des_input);
-            //cout<<des_input->value<<" "<<des_input->name<<endl;
         }
     }
     PrimeSpaceFeature_vector.push_back(PrimeSpaceFeature_input);
-    //cout<<endl<<Cellspace_vector.size()<<endl;
 
 
 
@@ -241,6 +239,14 @@ int main(void){
 
     xml_node<>* xml_primalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "primalSpaceFeatures");
     xml_node<>* xml_PrimalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "PrimalSpaceFeatures");
+    xml_node<>* xml_multiLayeredGraph=doc1.allocate_node(rapidxml::node_element, "multiLayeredGraph");
+    xml_node<>* xml_MultiLayeredGraph=doc1.allocate_node(rapidxml::node_element, "MultiLayeredGraph");
+    xml_node<>* xml_spaceLayers=doc1.allocate_node(rapidxml::node_element, "spaceLayers");
+    xml_node<>* xml_spaceLayerMember=doc1.allocate_node(rapidxml::node_element, "spaceLayerMember");
+    xml_node<>* xml_SpaceLayer=doc1.allocate_node(rapidxml::node_element, "SpaceLayer");
+
+    xml_node<>* xml_nodes=doc1.allocate_node(rapidxml::node_element, "nodes");
+    xml_node<>* xml_edges=doc1.allocate_node(rapidxml::node_element, "edges");
 
     for(auto iter=PrimeSpaceFeature_vector[0]->Cellspace_vector.begin();iter!=PrimeSpaceFeature_vector[0]->Cellspace_vector.end();++iter){
         xml_node<>* xml_cellSpaceMember = doc1.allocate_node(rapidxml::node_element, "cellSpaceMember");
@@ -277,8 +283,8 @@ int main(void){
             string name = (*iter_1)->name;
             string value= (*iter_1)->value;
             sum=sum+name+" : "+value+" ";
-
         }
+        sum=trim(sum);
 
         xml_description->value(doc1.allocate_string(sum.c_str()));
         xml_CellSpace->append_node(xml_description);
@@ -317,9 +323,64 @@ int main(void){
         xml_PrimalSpaceFeatures->append_node(xml_cellSpaceBoundaryMember);
     }//cellspaceboundary
 
+
+    xml_node<>* xml_state_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+    xml_state_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+
+    for(auto iter=State_vector.begin();iter!=State_vector.end();++iter){
+        xml_node<>* xml_stateMember=doc1.allocate_node(rapidxml::node_element, "stateMember");
+        xml_node<>* xml_State=doc1.allocate_node(rapidxml::node_element, "State");
+        xml_node<>* xml_State_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_State_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+
+        xml_node<>* xml_geometry = doc1.allocate_node(rapidxml::node_element, "geometry");
+        xml_node<>* xml_gml_Point = doc1.allocate_node(rapidxml::node_element, "gml:Point");
+        xml_node<>* xml_gml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+
+        xml_gml_pos->value(doc1.allocate_string(((*iter)->State_point.latitude+" "+(*iter)->State_point.longitutde+" "+height).c_str()));
+        xml_gml_Point->append_node(xml_gml_pos);
+        xml_geometry->append_node(xml_gml_Point);
+        xml_State->append_node(xml_geometry);
+        xml_stateMember->append_node(xml_State);
+        xml_nodes->append_node(xml_stateMember);
+    }//State
+
+
+    for(auto iter=Transition_vector.begin();iter!=Transition_vector.end();++iter){
+        xml_node<>* xml_transitionMember=doc1.allocate_node(rapidxml::node_element, "transitionMember");
+        xml_node<>* xml_Transition=doc1.allocate_node(rapidxml::node_element, "Transition");
+        xml_node<>* xml_Transition_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_Transition_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+
+        xml_node<>* xml_geometry = doc1.allocate_node(rapidxml::node_element, "geometry");
+        xml_node<>* xml_LineString = doc1.allocate_node(rapidxml::node_element, "gml:LineString");
+        xml_node<>* xml_gml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+
+        for(auto iter_1=(*iter)->way->Way_node_vector.begin();iter_1!=(*iter)->way->Way_node_vector.end();++iter_1){
+            xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+            xml_pos->append_attribute(doc1.allocate_attribute("srcDimension",srsDimension.c_str()));
+            vector <string> coordinate;
+            coordinate=find_coordinate(Node_vector,(*iter_1)->osm_id);
+            xml_pos->value(doc1.allocate_string((coordinate[0]+" "+coordinate[1]+" "+height).c_str()));
+            xml_LineString->append_node(xml_pos);
+        }
+
+        xml_geometry->append_node(xml_LineString);
+        xml_Transition->append_node(xml_geometry);
+        xml_transitionMember->append_node(xml_Transition);
+        xml_edges->append_node(xml_transitionMember);
+    }//Transition
+
+    xml_multiLayeredGraph->append_node(xml_MultiLayeredGraph);
+    xml_MultiLayeredGraph->append_node(xml_bound);
+    xml_MultiLayeredGraph->append_node(xml_spaceLayers);
+    xml_spaceLayers->append_node(xml_SpaceLayer);
+    xml_SpaceLayer->append_node(xml_nodes);
+    xml_SpaceLayer->append_node(xml_edges);
     xml_primalSpaceFeatures->append_node(xml_PrimalSpaceFeatures);
-    root->append_node(xml_bound);
+    root->append_node(xml_state_bound);
     root->append_node(xml_primalSpaceFeatures);
+    root->append_node(xml_multiLayeredGraph);
     doc1.append_node(root);
 
     ofstream file_stored("osm2indoorgml.xml");
