@@ -20,6 +20,11 @@ std::string trim(const std::string& str);
 template <class T1>
 T1  matching_id(std::vector<T1> &a,int b);
 
+class Pos;
+class CellSpace;
+class CellSpaceBoundary;
+class Transition;
+class State;
 int CellSpace_ID=1;
 int CellSpaceBoundary_ID=1;
 int State_id=1;
@@ -33,42 +38,41 @@ public:
     int osm_id;
 };
 
-class CellSpace{
+class IC{
 public:
     string gml_id;
+    int osm_id;
+    IC* duaility;
+};
+class CellSpace : public IC{
+public:
     string Description;
     string name;
     string bounded_by;
     vector <Pos*> pos_vector;
-    string duality_id;
-    int osm_id;
+    // State* Duality_State;
+
 };
-class CellSpaceBoundary{
+class CellSpaceBoundary:public IC{
 public:
-    string gml_id;
     string bounded_by;
-    string duality_id;
+    //Transition* Duality_Transition;
     vector <Pos*> pos_vector;
-    int osm_id;
 };
-class State{
+class State : public IC{
 public:
-    string gml_id;
     Pos *pos;
     string bounded_by;
-    string duality_id;
+    //CellSpace* Duality_Cellspace;
     vector<string> connects_vector;
-    int osm_id;
 };
-class Transition{
+class Transition : public IC{
 public:
-    string gml_id;
     string bounded_by;
     string weight;
-    string duality_id;
+    //CellSpaceBoundary* Duality_CellSpaceBoundary;
     vector <string> connects_vector;
     vector <Pos*> pos_vector;
-    int osm_id;
 };
 
 
@@ -98,12 +102,11 @@ int main(){
 
     for (xml_node<> * xml_relation = root_node->first_node("relation"); xml_relation; xml_relation = xml_relation->next_sibling("relation")) {
         xml_node<> * xml_tag = xml_relation->first_node("tag");
-        if(xml_tag ==NULL)continue;
-
         if (strcmp(xml_tag->first_attribute("v")->value(),"CellSpace") == 0){
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 CellSpace *cellspace_input = new CellSpace();
                 cellspace_input->osm_id=atoi(xml_member->first_attribute("ref")->value());
+                cellspace_input->gml_id="C"+to_string(CellSpace_ID++);
                 CellSpace_vector.push_back(cellspace_input);
             }
         }
@@ -111,6 +114,7 @@ int main(){
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 CellSpaceBoundary *cellspaceboundary_input = new CellSpaceBoundary();
                 cellspaceboundary_input->osm_id=atoi(xml_member->first_attribute("ref")->value());
+                cellspaceboundary_input->gml_id="B"+to_string(CellSpaceBoundary_ID++);
                 CellSpaceBoundary_vector.push_back(cellspaceboundary_input);
             }
         }
@@ -118,6 +122,7 @@ int main(){
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 State *state_input = new State();
                 state_input->pos=matching_id(node_vector,atoi(xml_member->first_attribute("ref")->value()));
+                state_input->gml_id="S"+to_string(State_id++);
                 State_vector.push_back(state_input);
             }
         }
@@ -125,6 +130,7 @@ int main(){
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 Transition *transition_input=new Transition();
                 transition_input->osm_id=atoi(xml_member->first_attribute("ref")->value());
+                transition_input->gml_id="T"+to_string(Transition_id++);
                 Transition_vector.push_back(transition_input);
             }
         }
@@ -132,7 +138,6 @@ int main(){
 
 
     for (xml_node<> * xml_way = root_node->first_node("way"); xml_way; xml_way = xml_way->next_sibling("way")) {
-
         if(matching_id(CellSpace_vector,atoi(xml_way->first_attribute("id")->value()))!=0){
             CellSpace * CellSpace_Pointer=matching_id(CellSpace_vector,atoi(xml_way->first_attribute("id")->value()));
             for(xml_node<>*xml_nd=xml_way->first_node("nd");xml_nd;xml_nd=xml_nd->next_sibling("nd")){
@@ -150,23 +155,35 @@ int main(){
             }
         }//Cellspace_way
         if(matching_id(CellSpaceBoundary_vector,atoi(xml_way->first_attribute("id")->value()))!=0){
+            CellSpaceBoundary * CellSpaceBoundary_Pointer=matching_id(CellSpaceBoundary_vector,atoi(xml_way->first_attribute("id")->value()));
             for(xml_node<>*xml_nd=xml_way->first_node("nd");xml_nd;xml_nd=xml_nd->next_sibling("nd")){
-                matching_id(CellSpaceBoundary_vector,atoi(xml_way->first_attribute("id")->value()))->pos_vector.push_back(matching_id(node_vector,atoi(xml_nd->first_attribute("ref")->value())));
+                CellSpaceBoundary_Pointer->pos_vector.push_back(matching_id(node_vector,atoi(xml_nd->first_attribute("ref")->value())));
             }
-        }
+        }//CellSpaceBoundary_way
         if(matching_id(Transition_vector,atoi(xml_way->first_attribute("id")->value()))!=0){
+            Transition * Transition_Pointer=matching_id(Transition_vector,atoi(xml_way->first_attribute("id")->value()));
             for(xml_node<>*xml_nd=xml_way->first_node("nd");xml_nd;xml_nd=xml_nd->next_sibling("nd")){
-                matching_id(Transition_vector,atoi(xml_way->first_attribute("id")->value()))->pos_vector.push_back(matching_id(node_vector,atoi(xml_nd->first_attribute("ref")->value())));
+                Transition_Pointer->pos_vector.push_back(matching_id(node_vector,atoi(xml_nd->first_attribute("ref")->value())));
             }
         }//Transition_way
     }
+    for (xml_node<> * xml_relation = root_node->first_node("relation"); xml_relation; xml_relation = xml_relation->next_sibling("relation")) {
+        xml_node<> * xml_tag = xml_relation->first_node("tag");
+        if(xml_tag==NULL)continue;
+        if(strcmp(xml_tag->first_attribute("v")->value(),"duality")==0){
+            xml_node<> *xml_member=xml_relation->first_node("member");
+            xml_node<> *xml_member_1=xml_member->next_sibling("member");
+            if(strcmp(xml_member->first_attribute("role")->value(),"State")==0){
 
-    for(auto iter=State_vector.begin();iter!=State_vector.end();++iter){
-        cout<<"osm : "<< (*iter)->pos->osm_id<<" ";
-        cout<<"latitude : "<< (*iter)->pos->latitude<<" ";
-        cout<<"logitutde : "<< (*iter)->pos->longitude<<endl;
+            }
+        }
+        if(strcmp(xml_tag->first_attribute("v")->value(),"connects")==0){
+            for(xml_node<> *xml_member=xml_relation->first_node("member");xml_member;xml_member=xml_member->next_sibling("member")){
 
+            }
+        }
     }
+
 }
 
 std::vector<std::string> split(std::string& strToSplit, char delimeter) {
