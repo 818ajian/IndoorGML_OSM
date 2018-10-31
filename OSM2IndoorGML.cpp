@@ -1,7 +1,6 @@
 //
 // Created by byeonggon on 2018-10-29.
 //
-
 #include <iostream>
 #include "rapidxml_print.hpp"
 #include "rapidxml.hpp"
@@ -10,26 +9,18 @@
 #include <string>
 #include <sstream>
 #include <string.h>
-
-
 using namespace std;
 using namespace rapidxml;
-
 std::vector<std::string> split(std::string& strToSplit, char delimeter);
 std::string trim(const std::string& str);
 template <class T1>
 T1  matching_id(std::vector<T1> &a,int b);
 
-class IC;
-class Pos;
-class CellSpace;
-class CellSpaceBoundary;
-class Transition;
-class State;
-
 const string height="0.0";
 const string boundedby_value="true";
 const string srsDimension="3";
+const string weight="0.0";
+
 int CellSpace_ID=1;
 int CellSpaceBoundary_ID=1;
 int State_id=1;
@@ -41,7 +32,6 @@ public:
     string gml_id;
     int osm_id;
     string Description;
-    string bounded_by;
     IC* duaility = NULL;
     vector <IC*> connects;
 };
@@ -95,7 +85,6 @@ int main(){
         node_input->latitude=xml_node->first_attribute("lat")->value();
         node_input->longitude=xml_node->first_attribute("lon")->value();
         node_vector.push_back(node_input);
-        //IC_vector.push_back(node_input);
     }//node input
 
     for (xml_node<> * xml_relation = root_node->first_node("relation"); xml_relation; xml_relation = xml_relation->next_sibling("relation")) {
@@ -109,7 +98,7 @@ int main(){
                 IC_vector.push_back(cellspace_input);
             }
         }
-        if (strcmp(xml_tag->first_attribute("v")->value(), "CellSpaceBoundary") == 0) {
+        else if (strcmp(xml_tag->first_attribute("v")->value(), "CellSpaceBoundary") == 0) {
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 CellSpaceBoundary *cellspaceboundary_input = new CellSpaceBoundary();
                 cellspaceboundary_input->osm_id=atoi(xml_member->first_attribute("ref")->value());
@@ -118,7 +107,7 @@ int main(){
                 IC_vector.push_back(cellspaceboundary_input);
             }
         }
-        if (strcmp(xml_tag->first_attribute("v")->value(), "State") == 0) {
+        else if (strcmp(xml_tag->first_attribute("v")->value(), "State") == 0) {
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 State *state_input = new State();
                 state_input->pos=matching_id(node_vector,atoi(xml_member->first_attribute("ref")->value()));
@@ -128,7 +117,7 @@ int main(){
                 IC_vector.push_back(state_input);
             }
         }
-        if (strcmp(xml_tag->first_attribute("v")->value(), "Transition") == 0) {
+        else if (strcmp(xml_tag->first_attribute("v")->value(), "Transition") == 0) {
             for(xml_node<> * xml_member = xml_relation->first_node("member"); xml_member; xml_member = xml_member->next_sibling("member")){
                 Transition *transition_input=new Transition();
                 transition_input->osm_id=atoi(xml_member->first_attribute("ref")->value());
@@ -200,7 +189,7 @@ int main(){
     root->append_attribute(doc1.allocate_attribute("xsi:schemaLocation", "http://www.opengis.net/indoorgml/1.0/core http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd"));
     xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
     xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
-
+    root->append_node(xml_bound);
     xml_node<>* xml_primalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "primalSpaceFeatures");
     xml_node<>* xml_PrimalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "PrimalSpaceFeatures");
     xml_node<>* xml_multiLayeredGraph=doc1.allocate_node(rapidxml::node_element, "multiLayeredGraph");
@@ -208,6 +197,9 @@ int main(){
     xml_node<>* xml_spaceLayers=doc1.allocate_node(rapidxml::node_element, "spaceLayers");
     xml_node<>* xml_spaceLayerMember=doc1.allocate_node(rapidxml::node_element, "spaceLayerMember");
     xml_node<>* xml_SpaceLayer=doc1.allocate_node(rapidxml::node_element, "SpaceLayer");
+    xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+    xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+    xml_PrimalSpaceFeatures->append_node(xml_bound);
 
     xml_node<>* xml_nodes=doc1.allocate_node(rapidxml::node_element, "nodes");
     xml_node<>* xml_edges=doc1.allocate_node(rapidxml::node_element, "edges");
@@ -237,16 +229,21 @@ int main(){
         xml_name->value(doc1.allocate_string((it->name).c_str()));
         for(auto it1 : it->pos_vector){
             xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+            xml_pos->append_attribute(doc1.allocate_attribute("srcDimension",srsDimension.c_str()));
             xml_pos->value(doc1.allocate_string((it1->latitude+" "+it1->longitude+" "+height).c_str()));
             xml_LinearRing->append_node(xml_pos);
         }
+        xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+
+
+        xml_CellSpace->append_node(xml_description);
+        xml_CellSpace->append_node(xml_name);
+        xml_CellSpace->append_node(xml_bound);
         xml_exterior->append_node(xml_LinearRing);
         xml_Polygon->append_node(xml_exterior);
         xml_Geometry2D->append_node(xml_Polygon);
-
         xml_cellSpaceGeometry->append_node(xml_Geometry2D);
-        xml_CellSpace->append_node(xml_name);
-        xml_CellSpace->append_node(xml_description);
         xml_CellSpace->append_node(xml_cellSpaceGeometry);
         xml_CellSpace->append_node(xml_duality);
 
@@ -272,6 +269,9 @@ int main(){
             xml_LineString->append_node(xml_pos);
         }
         xml_CellSpaceBoundary->append_attribute(doc1.allocate_attribute("gml:id",it->gml_id.c_str()));
+        xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+        xml_CellSpaceBoundary->append_node(xml_bound);
         xml_Geometry2D->append_node(xml_LineString);
         xml_cellSpaceBoundaryGeometry->append_node(xml_Geometry2D);
         xml_CellSpaceBoundary->append_node(xml_duality);
@@ -286,8 +286,9 @@ int main(){
         xml_node<>* xml_State=doc1.allocate_node(rapidxml::node_element, "State");
         xml_State->append_attribute(doc1.allocate_attribute("gml:id",doc1.allocate_string(it->gml_id.c_str())));
         xml_node<>* xml_State_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
-        xml_State_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
-
+        xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+        xml_State->append_node(xml_bound);
         if(it->duaility!=NULL) {
             xml_node < > *xml_duality = doc1.allocate_node(rapidxml::node_element, "duality");
             xml_duality->append_attribute(doc1.allocate_attribute("xlink:href", doc1.allocate_string(("#" + it->duaility->gml_id).c_str())));
@@ -300,10 +301,10 @@ int main(){
         }
         xml_node<>* xml_geometry = doc1.allocate_node(rapidxml::node_element, "geometry");
         xml_node<>* xml_gml_Point = doc1.allocate_node(rapidxml::node_element, "gml:Point");
-        xml_node<>* xml_gml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
-
-        xml_gml_pos->value(doc1.allocate_string((it->pos->latitude+" "+it->pos->longitude+" "+height).c_str()));
-        xml_gml_Point->append_node(xml_gml_pos);
+        xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+        xml_pos->append_attribute(doc1.allocate_attribute("srcDimension",srsDimension.c_str()));
+        xml_pos->value(doc1.allocate_string((it->pos->latitude+" "+it->pos->longitude+" "+height).c_str()));
+        xml_gml_Point->append_node(xml_pos);
         xml_geometry->append_node(xml_gml_Point);
         xml_State->append_node(xml_geometry);
         xml_stateMember->append_node(xml_State);
@@ -313,9 +314,12 @@ int main(){
         xml_node<>* xml_transitionMember=doc1.allocate_node(rapidxml::node_element, "transitionMember");
         xml_node<>* xml_Transition=doc1.allocate_node(rapidxml::node_element, "Transition");
         xml_Transition->append_attribute(doc1.allocate_attribute("gml:id",doc1.allocate_string(it->gml_id.c_str())));
-        xml_node<>* xml_Transition_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
-        xml_Transition_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
-
+        xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
+        xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+        xml_Transition->append_node(xml_bound);
+        xml_node<>* xml_weight = doc1.allocate_node(rapidxml::node_element, "weight");
+        xml_weight->value(doc1.allocate_string(weight.c_str()));
+        xml_Transition->append_node(xml_weight);
         xml_node<>* xml_geometry = doc1.allocate_node(rapidxml::node_element, "geometry");
         xml_node<>* xml_LineString = doc1.allocate_node(rapidxml::node_element, "gml:LineString");
         xml_node<>* xml_gml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
@@ -341,6 +345,7 @@ int main(){
         xml_transitionMember->append_node(xml_Transition);
         xml_edges->append_node(xml_transitionMember);
     }//Transition
+
     xml_multiLayeredGraph->append_node(xml_MultiLayeredGraph);
     xml_primalSpaceFeatures->append_node(xml_PrimalSpaceFeatures);
     root->append_node(xml_primalSpaceFeatures);

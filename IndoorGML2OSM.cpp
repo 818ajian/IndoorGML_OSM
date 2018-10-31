@@ -21,51 +21,39 @@ int OSM_NODE_ID=-1;
 int OSM_WAY_ID=-30000;
 int OSM_RELATION_ID=-60000;
 
-
-class Pos{
+class IC{
+public:
+    int osm_id;
+    string gml_id;
+    string duality_id;
+};
+class Pos : public IC{
 public:
     string latitude;
     string longitude;
     string height;
-    int osm_id;
 };
 
-class CellSpace{
+class CellSpace : public  IC{
 public:
-    string gml_id;
     string Description;
     string name;
-    string bounded_by;
     vector <Pos*> pos_vector;
-    string duality_id;
-    int osm_id;
 };
-class CellSpaceBoundary{
+class CellSpaceBoundary : public  IC{
 public:
-    string gml_id;
-    string bounded_by;
-    string duality_id;
     vector <Pos*> pos_vector;
-    int osm_id;
 };
-class State{
+class State : public  IC{
 public:
-    string gml_id;
     Pos *pos;
-    string bounded_by;
-    string duality_id;
     vector<string> connects_vector;
-    int osm_id;
 };
-class Transition{
+class Transition : public  IC{
 public:
-    string gml_id;
-    string bounded_by;
     string weight;
-    string duality_id;
     vector <string> connects_vector;
     vector <Pos*> pos_vector;
-    int osm_id;
 };
 
 
@@ -247,12 +235,13 @@ int main(){
         tag->append_attribute(doc1.allocate_attribute("k", "name"));
         tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string(((*iter)->name).c_str())));
         way->append_node(tag);
-        std::vector<std::string> splittedStrings = split((*iter)->Description, ' ');
+        std::vector<std::string> splittedStrings = split((*iter)->Description, ';');
 
-        for (int i = 0; i < splittedStrings.size();i += 3) {
+        for (auto it : splittedStrings) {
+            std::vector<std::string> token = split(it, '=');
             xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
-            tag->append_attribute(doc1.allocate_attribute("k",  doc1.allocate_string(splittedStrings[i].c_str())));
-            tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((splittedStrings[i+2].c_str()))));
+            tag->append_attribute(doc1.allocate_attribute("k",  doc1.allocate_string(token[0].c_str())));
+            tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
             way->append_node(tag);
         }
         root->append_node(way);
@@ -435,8 +424,12 @@ std::vector<std::string> split(std::string& strToSplit, char delimeter) {
     std::vector<std::string> splittedStrings;
     while (std::getline(ss, item, delimeter)) {
         if(item.length()==0)continue;
-        if(item.at(item.length()-1)=='\n')
-            item=item.substr(0,item.length()-1);
+        for(int i=0;i<item.length();i++) {
+            if (item.at(i) == '\n') {
+                item.at(i)=' ';
+            }
+        }
+        item=trim(item);
         splittedStrings.push_back(item);
     }
     return splittedStrings;

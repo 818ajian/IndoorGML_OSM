@@ -6,8 +6,8 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C1">
                     <gml:description>
-                        level : 4
-                        room : office
+                        level=4;
+                        room=office;
                     </gml:description>
                     <gml:name>
                         401
@@ -62,7 +62,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C2">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         424
@@ -99,7 +99,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C3">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         423
@@ -136,7 +136,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C4">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         403
@@ -188,7 +188,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C5">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         404
@@ -234,7 +234,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C6">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         405
@@ -280,7 +280,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C7">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         406
@@ -326,7 +326,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C8">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         407
@@ -372,7 +372,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C9">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         408
@@ -418,7 +418,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C10">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         409
@@ -464,7 +464,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C11">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         410
@@ -510,7 +510,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C12">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         422
@@ -559,7 +559,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C13">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         421
@@ -605,7 +605,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C14">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         420
@@ -651,7 +651,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C15">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         419
@@ -697,7 +697,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C16">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         426
@@ -758,7 +758,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C17">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         425
@@ -810,7 +810,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C18">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -856,7 +856,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C19">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -893,7 +893,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C20">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         418
@@ -939,7 +939,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C21">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         417
@@ -985,7 +985,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C22">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         411
@@ -1031,7 +1031,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C23">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         412
@@ -1077,7 +1077,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C24">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         413
@@ -1123,7 +1123,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C25">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         414
@@ -1169,7 +1169,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C26">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         413
@@ -1215,7 +1215,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C27">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         412
@@ -1261,7 +1261,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C28">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1298,7 +1298,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C29">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1347,7 +1347,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C30">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1384,7 +1384,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C31">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1421,7 +1421,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C32">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1488,7 +1488,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C33">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1534,7 +1534,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C34">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1580,7 +1580,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C35">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1617,7 +1617,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C36">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1657,7 +1657,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C37">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1703,7 +1703,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C38">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1749,7 +1749,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C39">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1795,7 +1795,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C40">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1841,7 +1841,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C41">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1896,7 +1896,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C42">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1942,7 +1942,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C43">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -1997,7 +1997,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C44">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2043,7 +2043,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C45">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2101,7 +2101,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C46">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2147,7 +2147,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C47">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2184,7 +2184,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C48">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2236,7 +2236,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C49">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2291,7 +2291,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C50">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2337,7 +2337,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C51">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2383,7 +2383,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C52">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2438,7 +2438,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C53">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
@@ -2484,7 +2484,7 @@
             <cellSpaceMember>
                 <CellSpace gml:id="C54">
                     <gml:description>
-                        storey : 4
+                        storey=4;
                     </gml:description>
                     <gml:name>
                         temp
