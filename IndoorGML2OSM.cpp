@@ -14,6 +14,9 @@ using namespace rapidxml;
 std::vector<std::string> split(std::string& strToSplit, char delimeter);
 std::string trim(const std::string& str);
 
+template <class T1>
+int matching_id(T1 a,string b);
+
 int OSM_NODE_ID=-1;
 int OSM_WAY_ID=-30000;
 int OSM_RELATION_ID=-60000;
@@ -64,8 +67,7 @@ public:
     vector <Pos*> pos_vector;
     int osm_id;
 };
-template <class T1>
-int matching_id(T1 a,string b);
+
 
 int main(){
 
@@ -420,7 +422,7 @@ int main(){
         }
     }//State<->Transition Connect
 
-    ofstream file_stored("IndoorGML2OSM.xml");
+    ofstream file_stored("../IndoorGML2OSM.xml");
     file_stored << doc1;
     file_stored.close();
     doc1.clear();
