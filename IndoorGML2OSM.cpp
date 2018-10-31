@@ -26,6 +26,7 @@ public:
     int osm_id;
     string gml_id;
     string duality_id;
+
 };
 class Pos : public IC{
 public:
@@ -278,10 +279,10 @@ int main(){
     relation_cellspace->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
     relation_cellspace->append_attribute(doc1.allocate_attribute("action", "modify"));
     relation_cellspace->append_attribute(doc1.allocate_attribute("visible", "true"));
-    for(auto iter=CellSpace_vector.begin();iter!=CellSpace_vector.end();iter++){
+    for(auto it:CellSpace_vector){
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "way"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         relation_cellspace->append_node(member);
     }
     xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -294,10 +295,10 @@ int main(){
     relation_cellspaceboundary->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
     relation_cellspaceboundary->append_attribute(doc1.allocate_attribute("action", "modify"));
     relation_cellspaceboundary->append_attribute(doc1.allocate_attribute("visible", "true"));
-    for(auto iter=CellSpaceBoundary_vector.begin();iter!=CellSpaceBoundary_vector.end();iter++){
+    for(auto it:CellSpaceBoundary_vector){
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "way"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         relation_cellspaceboundary->append_node(member);
     }
     tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -310,10 +311,10 @@ int main(){
     relation_state->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
     relation_state->append_attribute(doc1.allocate_attribute("action", "modify"));
     relation_state->append_attribute(doc1.allocate_attribute("visible", "true"));
-    for(auto iter=State_vector.begin();iter!=State_vector.end();iter++){
+    for(auto it:State_vector){
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "node"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         relation_state->append_node(member);
     }
     tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -326,10 +327,10 @@ int main(){
     relation_transition->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
     relation_transition->append_attribute(doc1.allocate_attribute("action", "modify"));
     relation_transition->append_attribute(doc1.allocate_attribute("visible", "true"));
-    for(auto iter=Transition_vector.begin();iter!=Transition_vector.end();iter++){
+    for(auto it:Transition_vector){
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "way"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         relation_transition->append_node(member);
     }
     tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -338,19 +339,19 @@ int main(){
     relation_transition->append_node(tag);
     root->append_node(relation_transition);//State entity
 
-    for(auto iter=State_vector.begin();iter!=State_vector.end();++iter){
+    for(auto it:State_vector){
         xml_node<> *relation = doc1.allocate_node(rapidxml::node_element, "relation");
         relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
         relation->append_attribute(doc1.allocate_attribute("action", "modify"));
         relation->append_attribute(doc1.allocate_attribute("visible", "true"));
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "node"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         member->append_attribute(doc1.allocate_attribute("role", "State"));
         relation->append_node(member);
         member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "way"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(CellSpace_vector,(*iter)->duality_id.substr(1,(*iter)->duality_id.length()))).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(CellSpace_vector,it->duality_id.substr(1,it->duality_id.length()))).c_str())));
         member->append_attribute(doc1.allocate_attribute("role", "CellSpace"));
         relation->append_node(member);
         tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -360,20 +361,20 @@ int main(){
         root->append_node(relation);
     }//State <->CellSpace Duality.
 
-    for(auto iter=Transition_vector.begin();iter!=Transition_vector.end();++iter){
+    for(auto it:Transition_vector){
         xml_node<> *relation = doc1.allocate_node(rapidxml::node_element, "relation");
         relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
         relation->append_attribute(doc1.allocate_attribute("action", "modify"));
         relation->append_attribute(doc1.allocate_attribute("visible", "true"));
         xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
         member->append_attribute(doc1.allocate_attribute("type", "way"));
-        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+        member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
         member->append_attribute(doc1.allocate_attribute("role", "Transition"));
 
-        if((*iter)->duality_id.length()==0)continue;
+        if(it->duality_id.length()==0)continue;
         xml_node<> * member_1  = doc1.allocate_node(rapidxml::node_element, "member");
         member_1->append_attribute(doc1.allocate_attribute("type", "way"));
-        member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(CellSpaceBoundary_vector,(*iter)->duality_id.substr(1,(*iter)->duality_id.length()))).c_str())));
+        member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(CellSpaceBoundary_vector,it->duality_id.substr(1,it->duality_id.length()))).c_str())));
         member_1->append_attribute(doc1.allocate_attribute("role", "CellSpaceBoundary"));
         relation->append_node(member);
         relation->append_node(member_1);
@@ -384,8 +385,8 @@ int main(){
         root->append_node(relation);
     }//Transition<->CellSpaceBoundary duality
 
-    for(auto iter=State_vector.begin();iter!=State_vector.end();++iter){
-        for(auto iter_1=(*iter)->connects_vector.begin();iter_1!=(*iter)->connects_vector.end();++iter_1) {
+    for(auto it:State_vector){
+        for(auto it1:it->connects_vector) {
             xml_node<> *relation = doc1.allocate_node(rapidxml::node_element, "relation");
             relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(to_string(OSM_RELATION_ID--).c_str())));
             relation->append_attribute(doc1.allocate_attribute("action", "modify"));
@@ -393,12 +394,12 @@ int main(){
 
             xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "node"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string((*iter)->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(it->osm_id).c_str())));
             member->append_attribute(doc1.allocate_attribute("role", "State"));
 
             xml_node<> *member_1 = doc1.allocate_node(rapidxml::node_element, "member");
             member_1->append_attribute(doc1.allocate_attribute("type", "way"));
-            member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(Transition_vector,(*iter_1).substr(1,(*iter_1).length()))).c_str())));
+            member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(to_string(matching_id(Transition_vector,it1.substr(1,it1.length()))).c_str())));
             member_1->append_attribute(doc1.allocate_attribute("role", "Transition"));
             relation->append_node(member);
             relation->append_node(member_1);
