@@ -16,7 +16,7 @@ std::string trim(const std::string& str);
 
 template <class T1>
 int matching_id(T1 a,string b);
-
+azamat
 int OSM_NODE_ID=-1;
 int OSM_WAY_ID=-30000;
 int OSM_RELATION_ID=-60000;
