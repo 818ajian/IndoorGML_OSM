@@ -65,7 +65,7 @@ public:
 
 
 int main(){
-    s
+
     vector <CellSpace*> CellSpace_vector;
     vector <CellSpaceBoundary*>CellSpaceBoundary_vector;
     vector <State*>State_vector;
