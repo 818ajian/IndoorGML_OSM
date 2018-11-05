@@ -1,9 +1,7 @@
 # IndoorGML_OSM
+
 Converter OSM Data<->IndoorGML Data
 
-The following image is available from [TM2IN-Viewer](https://github.com/cocoslime/TM2IN-Viewer).
-
-![](doc/img/180920-tm2in-process.gif)
 
 ## Pipeline
 
