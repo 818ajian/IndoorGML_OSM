@@ -3,16 +3,12 @@
 Converter OSM Data<->IndoorGML Data
 
 
-## Pipeline
-
-![](doc/img/pipeline.png?raw=true)
-
 ## Author
 Byeonggon Kim(byeonggon@pnu.edu), Pusan National University
 
 ## Dependencies
 - InFactory (https://github.com/STEMLab/InFactory) : To generate IndoorGML
-- OSM (https://wiki.openstreetmap.org/wiki/Main_Page): OSM wiki
+- OSM (https://wiki.openstreetmap.org/wiki/Main_Page) : OSM wiki
 
 ## Building
 
