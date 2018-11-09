@@ -57,7 +57,7 @@ namespace INDOOR{
         root->append_node(xml_bound);
         rapidxml::xml_node<>* xml_primalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "primalSpaceFeatures");
         rapidxml::xml_node<>* xml_PrimalSpaceFeatures = doc1.allocate_node(rapidxml::node_element, "PrimalSpaceFeatures");
-        xml_PrimalSpaceFeatures->append_attribute(doc1.allocate_attribute("gml:id", "PromalSpaceFeuatres-id-0"));
+        xml_PrimalSpaceFeatures->append_attribute(doc1.allocate_attribute("gml:id", "PrimalSpaceFeuatres-id-0"));
 
         xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
         xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
