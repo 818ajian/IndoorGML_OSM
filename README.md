@@ -36,8 +36,8 @@ CONVERTER [inputfile_type] [outputfile_type] [inputfile_path] [outputfile_path]
 For example,
 
 ```
-./CONVERTER OSM IndoorGML ./TEST.osm ./TEST.gml
-./CONVERTER IndoorGML OSM ./TEST.gml ./TEST.osm
+CONVERTER OSM IndoorGML ./TEST.osm ./TEST.gml
+CONVERTER IndoorGML OSM ./TEST.gml ./TEST.osm
 ```
 
 
