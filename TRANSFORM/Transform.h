@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 #include <ostream>
-#include "rapidxml_print.hpp"
-#include "rapidxml.hpp"
+#include "Rapidxml/rapidxml_print.hpp"
+#include "Rapidxml/rapidxml.hpp"
 class Pos;
 namespace CONVERTER {
     class IC {
