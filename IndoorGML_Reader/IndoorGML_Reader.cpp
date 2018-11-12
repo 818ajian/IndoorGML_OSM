@@ -13,7 +13,7 @@ namespace INDOOR{
     int OSM_NODE_ID=-1;
     int OSM_WAY_ID=-30000;
     template <class T1>
-    T1 INDOOR::matching_id(std::vector<T1> &a, std::string b) {
+    T1 matching_id(std::vector<T1> &a, std::string b) {
         T1 result;
         for(auto iter=a.begin();iter!=a.end();++iter){
             if((*iter)->gml_id==b){
@@ -52,7 +52,8 @@ namespace INDOOR{
             xml_node<> *name = CellSpace->first_node("gml:name");
             cellSpace_input->gml_id=CellSpace->first_attribute("gml:id")->value();
             cellSpace_input->name=OSM::trim(name->value());
-            cellSpace_input->Description=OSM::trim(Description->value());
+            if(Description!=NULL)
+                cellSpace_input->Description=OSM::trim(Description->value());
             cellSpace_input->osm_id=OSM_WAY_ID--;
             xml_node<> *LinearRing = CellSpace->first_node("cellSpaceGeometry")->first_node("Geometry2D")->first_node("gml:Polygon")->first_node("gml:exterior")->first_node("gml:LinearRing");
             for(xml_node<>*gml_pos=LinearRing->first_node("gml:pos"); gml_pos; gml_pos= gml_pos->next_sibling("gml:pos")){
@@ -64,7 +65,6 @@ namespace INDOOR{
                 pos_input->height=splittedStrings[2];
                 pos_input->osm_id=OSM_NODE_ID--;
                 cellSpace_input->pos_vector.push_back(pos_input);
-                //node_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
             CellSpace_vector.push_back(cellSpace_input);
@@ -87,7 +87,6 @@ namespace INDOOR{
                 pos_input->height=splittedStrings[2];
                 pos_input->osm_id=OSM_NODE_ID--;
                 CellSpaceBoundary_input->pos_vector.push_back(pos_input);
-                //node_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
             CellSpaceBoundary_vector.push_back(CellSpaceBoundary_input);
@@ -111,7 +110,6 @@ namespace INDOOR{
             pos_input->osm_id=OSM_NODE_ID--;
             State_input->osm_id=pos_input->osm_id;
             IC_vector.push_back(pos_input);
-            //node_vector.push_back(pos_input);
             State_vector.push_back(State_input);
             IC_vector.push_back(State_input);
         }//State
@@ -134,7 +132,6 @@ namespace INDOOR{
                 pos_input->height=splittedStrings[2];
                 pos_input->osm_id=OSM_NODE_ID--;
                 Transition_input->pos_vector.push_back(pos_input);
-                //node_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
             Transition_vector.push_back(Transition_input);
@@ -166,8 +163,6 @@ namespace INDOOR{
         for (xml_node<> * transitionMember = edges->first_node("transitionMember"); transitionMember; transitionMember = transitionMember->next_sibling("transitionMember")) {
             xml_node<> *Transition = transitionMember->first_node("Transition");
             xml_node<> *xml_duality = Transition->first_node("duality");
-            xml_node<> *LineString = Transition->first_node("geometry")->first_node("gml:LineString");
-            xml_node<> *xml_connects = Transition->first_node("connects");
             if(xml_duality!=NULL){
                 string duality_id;
                 duality_id=xml_duality->first_attribute("xlink:href")->value();
