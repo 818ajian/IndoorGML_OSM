@@ -14,7 +14,7 @@ namespace OSM{
     int State_id=1;
     int Transition_id=1;
     template <class T1>
-    T1 OSM::matching_id(std::vector<T1> &a, int b) {
+    T1 matching_id(std::vector<T1> &a, int b) {
         T1 result;
         for(auto iter=a.begin();iter!=a.end();++iter){
             if((*iter)->osm_id==b){
