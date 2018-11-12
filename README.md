@@ -13,14 +13,14 @@ Byeonggon Kim(byeonggon@pnu.edu), Pusan National University
 ## Building
 
 Dependencies should be pre-installed in your environment.
-Linux
+-Linux
 ```
 mkdir build
 cd build
 cmake ..
 make
 ```
-Windows
+-Windows
 ```
 mkdir build
 cd build
