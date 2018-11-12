@@ -23,9 +23,14 @@ file(GLOB OSM_FILES
 file(GLOB TRANSFORM_FILES
         "transform/*.h"
         )
+file(GLOB IO_FILES
+        "IO/*.h"
+        "IO/*.cpp"
+        )
 add_executable(CONVERTER
         ${INDOOR_FILES}
         ${OSM_FILES}
         ${TRANSFORM_FILES}
-        CONVERTER.cpp)
-include_directories("../IndoorGML_OSM")
+        ${IO_FILES}
+        CONVERTER.cpp )
+include_directories("../IndoorGML2OSM")
