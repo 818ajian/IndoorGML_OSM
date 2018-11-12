@@ -236,6 +236,7 @@ namespace OSM {
 
         for(auto it:IC_vector){
             if(it->type!=3)continue;
+            if(it->connects.size()==0)continue;
             for(auto it1:it->connects) {
                 rapidxml::xml_node<> *relation = doc1.allocate_node(rapidxml::node_element, "relation");
                 relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(OSM_RELATION_ID--).c_str())));
