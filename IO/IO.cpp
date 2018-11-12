@@ -11,7 +11,7 @@ namespace IO{
         char c;
         while(input[i]){
             c=input[i];
-            putchar(tolower(c));
+            input[i]=tolower(c);
             i++;
         }
         return input;
