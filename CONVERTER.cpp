@@ -7,11 +7,12 @@
 #include "OSM_Writer/OSM_Writer.h"
 #include <iostream>
 #include <string.h>
+
 int main(int argc, char **argv) {
-    if(strcmp(argv[1],"IndoorGML")==0 && strcmp(argv[2],"OSM")==0){
+    if(strcmp(strlwr(argv[1]),"indoorgml")==0 && strcmp(strlwr(argv[2]),"osm")==0){
         OSM::Write(INDOOR::Read(argv[3]),argv[4]);
     }
-    if(strcmp(argv[1],"OSM")==0 && strcmp(argv[2],"IndoorGML")==0){
+    if(strcmp(strlwr(argv[1]),"osm")==0 && strcmp(strlwr(argv[2]),"indoorgml")==0){
         INDOOR::Write(OSM::Read(argv[3]),argv[4]);
     }
     return 0;
