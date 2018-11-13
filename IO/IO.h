@@ -5,6 +5,10 @@
 #ifndef INDOORGML2OSM_IO_H
 #define INDOORGML2OSM_IO_H
 namespace IO{
+    /**
+     * @brief change char * to lower case
+     * @return char*
+     */
     char * lowercase(char *input);
 }
 #endif //INDOORGML2OSM_IO_H

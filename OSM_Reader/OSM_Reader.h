@@ -4,12 +4,24 @@
 
 #ifndef INDOORGML2OSM_OSM_READER_H
 #define INDOORGML2OSM_OSM_READER_H
-#include <TRANSFORM/Transform.h>
+#include "TRANSFORM/Transform.h"
 using namespace rapidxml;
 
 namespace OSM{
+    /**
+     *
+     * @tparam T1
+     * @param a - vector<IC*> IC vector
+     * @param b - OSM id(Node, Way, Relation)
+     * @return - IC*
+     */
     template<class T1>
     T1 matching_id(std::vector<T1> &a, int b);
+    /**
+     *
+     * @param path - input OSM data
+     * @return - IC *
+     */
     std::vector<CONVERTER::IC*> Read(std::string path);
 }
 #endif //INDOORGML2OSM_OSM_READER_H
