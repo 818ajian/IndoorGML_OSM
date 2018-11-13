@@ -33,4 +33,4 @@ add_executable(CONVERTER
         ${TRANSFORM_FILES}
         ${IO_FILES}
         CONVERTER.cpp )
-include_directories("../IndoorGML2OSM")
+include_directories("../IndoorGML_OSM")
