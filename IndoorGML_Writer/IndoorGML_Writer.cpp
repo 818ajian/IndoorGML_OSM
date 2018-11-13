@@ -14,10 +14,6 @@ namespace INDOOR{
     const std::string srsDimension="3";
     const std::string weight="0.0";
 
-    int CellSpace_ID=1;
-    int CellSpaceBoundary_ID=1;
-    int State_id=1;
-    int Transition_id=1;
 
     std::vector<std::string> split(std::string& strToSplit, char delimeter) {
         std::stringstream ss(strToSplit);
