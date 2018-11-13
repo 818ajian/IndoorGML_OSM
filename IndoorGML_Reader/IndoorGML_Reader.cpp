@@ -6,12 +6,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-
 using namespace std;
-
 namespace INDOOR{
-    int OSM_NODE_ID=-1;
-    int OSM_WAY_ID=-30000;
     template <class T1>
     T1 matching_id(std::vector<T1> &a, std::string b) {
         T1 result;
