@@ -1,0 +1,3 @@
+C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/build/CMakeFiles/CONVERTER.dir
+C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/build/CMakeFiles/edit_cache.dir
+C:/Users/byeonggon/CLionProjects/IndoorGML2OSM/build/CMakeFiles/rebuild_cache.dir

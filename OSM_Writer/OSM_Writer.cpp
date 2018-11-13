@@ -6,10 +6,9 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-namespace OSM {
-    int OSM_RELATION_ID=-60000;
 
-    std::vector<std::string> split(std::string& strToSplit, char delimeter) {
+namespace OSM {
+        std::vector<std::string> split(std::string& strToSplit, char delimeter) {
         std::stringstream ss(strToSplit);
         std::string item;
         std::vector<std::string> splittedStrings;

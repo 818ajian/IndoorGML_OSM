@@ -4,13 +4,33 @@
 
 #ifndef INDOORGML2OSM_TRANSFORM_H
 #define INDOORGML2OSM_TRANSFORM_H
+
 #include <string>
 #include <vector>
 #include <ostream>
 #include "Rapidxml/rapidxml_print.hpp"
 #include "Rapidxml/rapidxml.hpp"
-class Pos;
+
+extern int CellSpace_ID;
+extern int CellSpaceBoundary_ID;
+extern int State_id;
+extern int Transition_id;
+extern int OSM_NODE_ID;
+extern int OSM_WAY_ID;
+extern int OSM_RELATION_ID;
 namespace CONVERTER {
+    /**
+     * @brief Parent class both Indoorgml and OSM
+     * @details Parent class of Pos, CellSpace, CellSpaceBoundary , State , Transition
+     * @param osm_id OSM ID
+     * @param type Classification of Pos(0), CellSpace(1), CellSpaceBoundary(2) , State(3) , Transition(4)
+     * @param gml_id IndoorGML gml ID
+     * @param Description gml:description in IndoorGML
+     * @param duality duality in IndoorGML
+     * @param connects connects in IndoorGML
+     *
+     *
+    */
     class IC {
     public:
         int osm_id;
@@ -21,7 +41,12 @@ namespace CONVERTER {
         std::vector<IC *> connects;
 
     };
-
+    /**
+     * @brief Pos class in IndoorGML, Node in OSM
+     * @latitude latitude in OSM and IndoorGML
+     * @longitude longitude in OSM and IndoorGML
+     * @height height in InoodrGML
+     */
     class Pos : public IC {
     public:
         std::string latitude;
@@ -31,6 +56,11 @@ namespace CONVERTER {
            type=0;
         }
     };
+     /**
+         * @brief CellSpace class in IndoorGML, CellSpace(way) in OSM
+         * @name Cellspace Name
+         * @pos_vector Member of pos in Cellspace
+     */
     class CellSpace : public IC {
     public:
         std::string name;
@@ -39,6 +69,10 @@ namespace CONVERTER {
             type=1;
         }
     };
+    /**
+    * @brief CellSpaceBoundary class in IndoorGML, CellSpaceBoundary(way) in OSM
+    * @pos_vector Member of pos in CellSpaceBoundary
+    */
     class CellSpaceBoundary : public IC {
     public:
         std::vector<Pos *> pos_vector;
@@ -46,6 +80,10 @@ namespace CONVERTER {
             type=2;
         }
     };
+    /**
+    * @brief State class in IndoorGML, State(Node) in OSM
+    * @pos State Pos
+    */
     class State : public IC {
     public:
         Pos *pos;
@@ -53,6 +91,11 @@ namespace CONVERTER {
             type=3;
         }
     };
+     /**
+     * @brief Transition class in IndoorGML, Transition(way) in OSM
+     * @weight weight in IndoorGML
+     * @pos_vector Member of pos in Transition
+     */
     class Transition : public IC {
     public:
         std::string weight;
@@ -62,4 +105,5 @@ namespace CONVERTER {
         }
     };
 }
+
 #endif //INDOORGML2OSM_TRANSFORM_H

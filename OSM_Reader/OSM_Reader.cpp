@@ -9,10 +9,6 @@
 
 using namespace std;
 namespace OSM{
-    int CellSpace_ID=1;
-    int CellSpaceBoundary_ID=1;
-    int State_id=1;
-    int Transition_id=1;
     template <class T1>
     T1 matching_id(std::vector<T1> &a, int b) {
         T1 result;
