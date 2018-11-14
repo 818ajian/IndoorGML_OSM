@@ -17,14 +17,6 @@
  *
  * @link geo_features Geometric Indoor Features @endlink
  *
- * All geometric features in Indoor Component are CONVERTER::IC.
- *
- * - CONVERTER::IC
- *
- *
- *
- * Basic geometric features are TM2IN::Vertex and TM2IN::HalfEdge.
- *
  *  - CONVERTER::IC
  *  - CONVERTER::Pos
  *  - CONVERTER::CellSpace
