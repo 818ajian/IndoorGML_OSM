@@ -1,6 +1,7 @@
 var dir_41ce16b0efa4d53c1e9a5c4b4d03bacf =
 [
-    [ "doc", "dir_59271e3624557324f6dd7ef7afdae274.html", "dir_59271e3624557324f6dd7ef7afdae274" ],
+    [ "build", "dir_7ff71945c07eeea7c260499454254134.html", "dir_7ff71945c07eeea7c260499454254134" ],
+    [ "DOC", "dir_0c0c3752f8b834e5228555bc9a824bad.html", "dir_0c0c3752f8b834e5228555bc9a824bad" ],
     [ "IndoorGML_Reader", "dir_5a5e362f1f10cfd586a6beffb34d17f5.html", "dir_5a5e362f1f10cfd586a6beffb34d17f5" ],
     [ "IndoorGML_Writer", "dir_e539e8a807e43e0cef492b62f58ca7e8.html", "dir_e539e8a807e43e0cef492b62f58ca7e8" ],
     [ "IO", "dir_ea069f376bdec592295c5c070f92bd22.html", "dir_ea069f376bdec592295c5c070f92bd22" ],

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['weight',['weight',['../class_c_o_n_v_e_r_t_e_r_1_1_transition.html#aa462e27101719170ef036d0ec155cf0d',1,'CONVERTER::Transition::weight()'],['../namespace_i_n_d_o_o_r.html#a901d74a8ed28a80f8cdefa79f6977409',1,'INDOOR::weight()']]]
+  ['srsdimension',['srsDimension',['../namespace_i_n_d_o_o_r.html#ae80673db22429ec1f68f3864239c6f25',1,'INDOOR']]],
+  ['state_5fid',['State_id',['../_i_o_8cpp.html#ac51ddbde71a09c1623338b35134df5cd',1,'State_id():&#160;IO.cpp'],['../_transform_8h.html#ac51ddbde71a09c1623338b35134df5cd',1,'State_id():&#160;IO.cpp']]]
 ];
