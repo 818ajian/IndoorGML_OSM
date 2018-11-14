@@ -20,6 +20,7 @@ extern int OSM_WAY_ID;
 extern int OSM_RELATION_ID;
 namespace CONVERTER {
     /**
+     * @ingroup geo_features
      * @brief Parent class both Indoorgml and OSM
      * @details Parent class of Pos, CellSpace, CellSpaceBoundary , State , Transition
      * @param osm_id OSM ID
@@ -38,10 +39,12 @@ namespace CONVERTER {
         std::string gml_id;
         std::string Description;
         IC *duality = NULL;
+
         std::vector<IC *> connects;
 
     };
     /**
+     * @ingroup geo_features
      * @brief Pos class in IndoorGML, Node in OSM
      * @latitude latitude in OSM and IndoorGML
      * @longitude longitude in OSM and IndoorGML
@@ -57,9 +60,10 @@ namespace CONVERTER {
         }
     };
      /**
-         * @brief CellSpace class in IndoorGML, CellSpace(way) in OSM
-         * @name Cellspace Name
-         * @pos_vector Member of pos in Cellspace
+     * @ingroup geo_features
+     * @brief CellSpace class in IndoorGML, CellSpace(way) in OSM
+     * @name Cellspace Name
+     * @pos_vector Member of pos in Cellspace
      */
     class CellSpace : public IC {
     public:
@@ -70,6 +74,7 @@ namespace CONVERTER {
         }
     };
     /**
+    * @ingroup geo_features
     * @brief CellSpaceBoundary class in IndoorGML, CellSpaceBoundary(way) in OSM
     * @pos_vector Member of pos in CellSpaceBoundary
     */
@@ -81,6 +86,7 @@ namespace CONVERTER {
         }
     };
     /**
+    * @ingroup geo_features
     * @brief State class in IndoorGML, State(Node) in OSM
     * @pos State Pos
     */
@@ -92,6 +98,7 @@ namespace CONVERTER {
         }
     };
      /**
+     * @ingroup geo_features
      * @brief Transition class in IndoorGML, Transition(way) in OSM
      * @weight weight in IndoorGML
      * @pos_vector Member of pos in Transition
