@@ -107,7 +107,8 @@ namespace INDOOR{
             rapidxml:: xml_node<>* xml_exterior = doc1.allocate_node(rapidxml::node_element, "gml:exterior");
             rapidxml::xml_node<>* xml_LinearRing = doc1.allocate_node(rapidxml::node_element, "gml:LinearRing");
             rapidxml::xml_node<>* xml_duality = doc1.allocate_node(rapidxml::node_element, "duality");
-            xml_duality->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it->duality->gml_id).c_str())));
+            if(it->duality!=NULL)
+                xml_duality->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it->duality->gml_id).c_str())));
             xml_description->value(doc1.allocate_string(trim(it->Description).c_str()));
 
             xml_name->value(doc1.allocate_string((((CONVERTER::CellSpace*)it)->name).c_str()));
