@@ -39,7 +39,7 @@ namespace CONVERTER {
         std::string gml_id;
         std::string Description;
         IC *duality = NULL;
-
+        std::vector<IC *> partialboundedBy;
         std::vector<IC *> connects;
 
     };
@@ -80,6 +80,7 @@ namespace CONVERTER {
     */
     class CellSpaceBoundary : public IC {
     public:
+        std::string name;
         std::vector<Pos *> pos_vector;
         CellSpaceBoundary(){
             type=2;

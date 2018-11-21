@@ -46,7 +46,7 @@ namespace INDOOR{
             xml_node<> *CellSpace = cellSpaceMember->first_node("CellSpace");
             xml_node<> *Description = CellSpace->first_node("gml:description");
             xml_node<> *name = CellSpace->first_node("gml:name");
-            cellSpace_input->gml_id=CellSpace->first_attribute("gml:id")->value();
+            cellSpace_input->gml_id=OSM::trim(CellSpace->first_attribute("gml:id")->value());
             cellSpace_input->name=OSM::trim(name->value());
             if(Description!=NULL)
                 cellSpace_input->Description=OSM::trim(Description->value());
@@ -71,6 +71,9 @@ namespace INDOOR{
 
             CONVERTER::CellSpaceBoundary *CellSpaceBoundary_input=new CONVERTER::CellSpaceBoundary();
             xml_node<> *CellSpaceBoundary = cellSpaceBoundaryMember->first_node("CellSpaceBoundary");
+            xml_node<> *name = CellSpaceBoundary->first_node("gml:name");
+            if(name!=NULL)
+                CellSpaceBoundary_input->name=OSM::trim(name->value());
             CellSpaceBoundary_input->osm_id=OSM_WAY_ID--;
             CellSpaceBoundary_input->gml_id=CellSpaceBoundary->first_attribute("gml:id")->value();
             xml_node<> *LineString = CellSpaceBoundary->first_node("cellSpaceBoundaryGeometry")->first_node("geometry2D")->first_node("gml:LineString");
@@ -134,6 +137,18 @@ namespace INDOOR{
             IC_vector.push_back(Transition_input);
         }//Transition
 
+        for (xml_node<> * cellSpaceMember = PrimalSpaceFeatures->first_node("cellSpaceMember"); cellSpaceMember; cellSpaceMember = cellSpaceMember->next_sibling("cellSpaceMember")) {
+            xml_node<> *CellSpace = cellSpaceMember->first_node("CellSpace");
+            xml_node<> *partialboundedBy = CellSpace->first_node("partialboundedBy");
+            if(partialboundedBy==NULL)
+                continue;
+            for(xml_node<> *partialboundedBy = CellSpace->first_node("partialboundedBy");partialboundedBy;partialboundedBy=partialboundedBy->next_sibling("partialboundedBy")) {
+                string partialboundedBy_id;
+                partialboundedBy_id = partialboundedBy->first_attribute("xlink:href")->value();
+                partialboundedBy_id = partialboundedBy_id.substr(1, partialboundedBy_id.length());
+                matching_id(IC_vector, CellSpace->first_attribute("gml:id")->value())->partialboundedBy.push_back(matching_id(IC_vector, partialboundedBy_id));
+            }
+        }//Partial_bounded_by
         for (xml_node<> * stateMember = nodes->first_node("stateMember"); stateMember; stateMember = stateMember->next_sibling("stateMember")) {
             xml_node<> *xml_State = stateMember->first_node("State");
             xml_node<> *xml_duality = xml_State->first_node("duality");

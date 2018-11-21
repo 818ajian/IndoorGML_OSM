@@ -38,7 +38,6 @@ namespace INDOOR{
         return result;
     }
     void Write(std::vector<CONVERTER::IC*> IC_vector,std::string PATH){
-
         rapidxml::xml_document<> doc1;
         rapidxml::xml_node<>* root = doc1.allocate_node(rapidxml::node_element, "IndoorFeatures");
         root->append_attribute(doc1.allocate_attribute("xmlns:gml", "http://www.opengis.net/gml/3.2"));
@@ -110,7 +109,6 @@ namespace INDOOR{
             if(it->duality!=NULL)
                 xml_duality->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it->duality->gml_id).c_str())));
             xml_description->value(doc1.allocate_string(trim(it->Description).c_str()));
-
             xml_name->value(doc1.allocate_string((((CONVERTER::CellSpace*)it)->name).c_str()));
             for(auto it1 : ((CONVERTER::CellSpace*)it)->pos_vector){
                 rapidxml::xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
@@ -130,7 +128,11 @@ namespace INDOOR{
             xml_cellSpaceGeometry->append_node(xml_Geometry2D);
             xml_CellSpace->append_node(xml_cellSpaceGeometry);
             xml_CellSpace->append_node(xml_duality);
-
+            for(auto it1:it->partialboundedBy){
+                rapidxml::xml_node<>* xml_partialboundedBy= doc1.allocate_node(rapidxml::node_element, "partialboundedBy");
+                xml_partialboundedBy->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it1->gml_id).c_str())));
+                xml_CellSpace->append_node(xml_partialboundedBy);
+            }
             xml_cellSpaceMember->append_node(xml_CellSpace);
             xml_PrimalSpaceFeatures->append_node(xml_cellSpaceMember);
         }
@@ -141,6 +143,8 @@ namespace INDOOR{
             rapidxml::xml_node<>* xml_CellSpaceBoundary_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
             xml_CellSpaceBoundary_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
             rapidxml::xml_node<>* xml_duality = doc1.allocate_node(rapidxml::node_element, "duality");
+            rapidxml::xml_node<>* xml_name= doc1.allocate_node(rapidxml::node_element, "gml:name");
+            xml_name->value(doc1.allocate_string((((CONVERTER::CellSpaceBoundary*)it)->name).c_str()));
             if(it->duality!=NULL)
                 xml_duality->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it->duality->gml_id).c_str())));
             rapidxml::xml_node<>* xml_cellSpaceBoundaryGeometry = doc1.allocate_node(rapidxml::node_element, "cellSpaceBoundaryGeometry");
@@ -156,6 +160,8 @@ namespace INDOOR{
             xml_CellSpaceBoundary->append_attribute(doc1.allocate_attribute("gml:id",it->gml_id.c_str()));
             rapidxml::xml_node<>* xml_bound = doc1.allocate_node(rapidxml::node_element, "gml:boundedBy");
             xml_bound->append_attribute(doc1.allocate_attribute("xsi:nil", boundedby_value.c_str()));
+            if(((CONVERTER::CellSpaceBoundary*)it)->name!="")
+                xml_CellSpaceBoundary->append_node(xml_name);
             xml_CellSpaceBoundary->append_node(xml_bound);
             xml_Geometry2D->append_node(xml_LineString);
             xml_cellSpaceBoundaryGeometry->append_node(xml_Geometry2D);

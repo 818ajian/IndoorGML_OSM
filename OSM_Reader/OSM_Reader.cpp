@@ -102,10 +102,17 @@ namespace OSM{
                     CellSpace_Pointer->Description.append(";");
                 }
             }//Cellspace_way
+
             if(matching_id(CellSpaceBoundary_vector,atoi(xml_way->first_attribute("id")->value()))!=0){
                 CONVERTER::CellSpaceBoundary * CellSpaceBoundary_Pointer=matching_id(CellSpaceBoundary_vector,atoi(xml_way->first_attribute("id")->value()));
                 for(xml_node<>*xml_nd=xml_way->first_node("nd");xml_nd;xml_nd=xml_nd->next_sibling("nd")){
                     CellSpaceBoundary_Pointer->pos_vector.push_back(matching_id(node_vector,atoi(xml_nd->first_attribute("ref")->value())));
+                }
+                for(xml_node<>*xml_tag=xml_way->first_node("tag");xml_tag;xml_tag=xml_tag->next_sibling("tag")){
+                    if(strcmp(xml_tag->first_attribute("k")->value(),"name")==0){
+                        CellSpaceBoundary_Pointer->name=xml_tag->first_attribute("v")->value();
+                        continue;
+                    }
                 }
             }//CellSpaceBoundary_way
             if(matching_id(Transition_vector,atoi(xml_way->first_attribute("id")->value()))!=0){
@@ -123,13 +130,18 @@ namespace OSM{
                 xml_node<> *xml_member_1=xml_member->next_sibling("member");
                 matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()))->duality=matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value()));
                 matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value()))->duality=matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()));
-                //cout<<matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()))->gml_id<<" "<<matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()))->duality->gml_id<<endl;
             }
             if(strcmp(xml_tag->first_attribute("v")->value(),"connects")==0){
                 xml_node<> *xml_member=xml_relation->first_node("member");
                 xml_node<> *xml_member_1=xml_member->next_sibling("member");
                 matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()))->connects.push_back(matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value())));
                 matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value()))->connects.push_back(matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value())));
+            }
+            if(strcmp(xml_tag->first_attribute("v")->value(),"partialboundedBy")==0){
+                xml_node<> *xml_member=xml_relation->first_node("member");
+                xml_node<> *xml_member_1=xml_member->next_sibling("member");
+                matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value()))->partialboundedBy.push_back(matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value())));
+                matching_id(IC_vector,atoi(xml_member_1->first_attribute("ref")->value()))->partialboundedBy.push_back(matching_id(IC_vector,atoi(xml_member->first_attribute("ref")->value())));
             }
         }
 

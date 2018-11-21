@@ -71,19 +71,23 @@ namespace OSM {
                 nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::CellSpace*)it)->pos_vector[i]->osm_id).c_str())));
                 way->append_node(nd);
             }
-            rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
-            tag->append_attribute(doc1.allocate_attribute("k", "name"));
-            tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((((CONVERTER::CellSpace*)it)->name).c_str())));
-            way->append_node(tag);
-            std::vector<std::string> splittedStrings = split(it->Description, ';');
-
-            for (auto it : splittedStrings) {
-                std::vector<std::string> token = split(it, '=');
+            if(((CONVERTER::CellSpace*)it)->name.c_str()!=NULL) {
                 rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
-                tag->append_attribute(doc1.allocate_attribute("k",  doc1.allocate_string(token[0].c_str())));
-                tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
+                tag->append_attribute(doc1.allocate_attribute("k", "name"));
+                tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((((CONVERTER::CellSpace *) it)->name).c_str())));
                 way->append_node(tag);
-            }
+            }//name이 있으면 name추가
+
+            if(((CONVERTER::CellSpace*)it)->Description.c_str()!=NULL) {
+                std::vector<std::string> splittedStrings = split(it->Description, ';');
+                for (auto it : splittedStrings) {
+                    std::vector<std::string> token = split(it, '=');
+                    rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
+                    tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(token[0].c_str())));
+                    tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
+                    way->append_node(tag);
+                }
+            }//Description이 있으면 Description 추가
             root->append_node(way);
         }//append Cellspace
 
@@ -98,6 +102,12 @@ namespace OSM {
                 nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::CellSpaceBoundary*)it)->pos_vector[i]->osm_id).c_str())));
                 way->append_node(nd);
             }
+            if(((CONVERTER::CellSpaceBoundary*)it)->name!="") {
+                rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
+                tag->append_attribute(doc1.allocate_attribute("k", "name"));
+                tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((((CONVERTER::CellSpaceBoundary*) it)->name).c_str())));
+                way->append_node(tag);
+            }//name이 있으면 name추가
             root->append_node(way);
         }//append Cellspaceboundary
 
@@ -258,6 +268,33 @@ namespace OSM {
                 root->append_node(relation);
             }
         }//State<->Transition Connect
+
+        for(auto it:IC_vector){
+            if(it->type!=1)continue;
+            if(it->partialboundedBy.size()==0)continue;
+            for(auto it1:it->partialboundedBy) {
+                rapidxml::xml_node<> *relation = doc1.allocate_node(rapidxml::node_element, "relation");
+                relation->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(OSM_RELATION_ID--).c_str())));
+                relation->append_attribute(doc1.allocate_attribute("action", "modify"));
+                relation->append_attribute(doc1.allocate_attribute("visible", "true"));
+                rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
+                member->append_attribute(doc1.allocate_attribute("type", "way"));
+                member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+                member->append_attribute(doc1.allocate_attribute("role", "CellSpace"));
+                rapidxml::xml_node<> *member_1 = doc1.allocate_node(rapidxml::node_element, "member");
+                member_1->append_attribute(doc1.allocate_attribute("type", "way"));
+                member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it1->osm_id).c_str())));
+                member_1->append_attribute(doc1.allocate_attribute("role", "CellSpaceBoundary"));
+                relation->append_node(member);
+                relation->append_node(member_1);
+                tag = doc1.allocate_node(rapidxml::node_element, "tag");
+                tag->append_attribute(doc1.allocate_attribute("k", "type"));
+                tag->append_attribute(doc1.allocate_attribute("v", "partialboundedBy"));
+                relation->append_node(tag);
+                root->append_node(relation);
+            }
+        }//CellSpace<->CellSpaceboundary partialboundedby
+
 
         std::ofstream file_stored(PATH);
         file_stored << doc1;
