@@ -23,5 +23,6 @@ namespace OSM{
      * @return - IC *
      */
     std::vector<CONVERTER::IC*> Read(std::string path);
+    char* Read_tag(char* input);
 }
 #endif //INDOORGML2OSM_OSM_READER_H

@@ -35,6 +35,13 @@ namespace OSM {
 
         return result;
     }
+    std::string Write_tag(std::string &input){
+        std::string out;
+        out=input;
+        if(input=="storey")
+            out="level";
+        return out;
+    }
     void Write(std::vector<CONVERTER::IC*>IC_vector, std::string PATH){
         rapidxml::xml_document<> doc1;
         rapidxml::xml_node<>* decl = doc1.allocate_node(rapidxml::node_declaration);
@@ -83,7 +90,7 @@ namespace OSM {
                 for (auto it : splittedStrings) {
                     std::vector<std::string> token = split(it, '=');
                     rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
-                    tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(token[0].c_str())));
+                    tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(Write_tag(token[0]).c_str())));
                     tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
                     way->append_node(tag);
                 }

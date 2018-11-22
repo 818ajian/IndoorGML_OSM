@@ -26,6 +26,7 @@ namespace OSM{
      * @brief
      */
     std::vector<std::string> split(std::string& strToSplit, char delimeter);
+    std::string Write_tag(std::string &input);
 }
 
 #endif //INDOORGML2OSM_OSM_WRITER_H

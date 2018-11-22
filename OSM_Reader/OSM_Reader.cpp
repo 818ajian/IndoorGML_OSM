@@ -19,6 +19,13 @@ namespace OSM{
         }
         return result;
     }
+    char* Read_tag(char* input){
+        char* out=new char();
+        strcpy(out,input);
+        if(strcmp(input,"level")==0)
+            strcpy(out,"storey");
+        return out;
+    }
     std::vector<CONVERTER::IC*> Read(std::string PATH){
         vector <CONVERTER::CellSpace*> CellSpace_vector;
         vector <CONVERTER::CellSpaceBoundary*>CellSpaceBoundary_vector;
@@ -96,7 +103,8 @@ namespace OSM{
                         CellSpace_Pointer->name=xml_tag->first_attribute("v")->value();
                         continue;
                     }
-                    CellSpace_Pointer->Description.append(xml_tag->first_attribute("k")->value());
+
+                    CellSpace_Pointer->Description.append(Read_tag((xml_tag->first_attribute("k")->value())));
                     CellSpace_Pointer->Description.append("=");
                     CellSpace_Pointer->Description.append(xml_tag->first_attribute("v")->value());
                     CellSpace_Pointer->Description.append(";");
