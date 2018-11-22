@@ -74,6 +74,9 @@ namespace INDOOR{
             xml_node<> *name = CellSpaceBoundary->first_node("gml:name");
             if(name!=NULL)
                 CellSpaceBoundary_input->name=OSM::trim(name->value());
+            xml_node<> *Description = CellSpaceBoundary->first_node("gml:description");
+            if(Description!=NULL)
+                CellSpaceBoundary_input->Description=OSM::trim(Description->value());
             CellSpaceBoundary_input->osm_id=OSM_WAY_ID--;
             CellSpaceBoundary_input->gml_id=CellSpaceBoundary->first_attribute("gml:id")->value();
             xml_node<> *LineString = CellSpaceBoundary->first_node("cellSpaceBoundaryGeometry")->first_node("geometry2D")->first_node("gml:LineString");
@@ -97,6 +100,9 @@ namespace INDOOR{
             CONVERTER::State *State_input=new CONVERTER::State();
 
             xml_node<> *State = stateMember->first_node("State");
+            xml_node<> *Description = State->first_node("gml:description");
+            if(Description!=NULL)
+                State_input->Description=OSM::trim(Description->value());
             State_input->gml_id=State->first_attribute("gml:id")->value();
             xml_node<> *Point = State->first_node("geometry")->first_node("gml:Point")->first_node("gml:pos");
             CONVERTER::Pos *pos_input=new CONVERTER::Pos();
@@ -118,6 +124,9 @@ namespace INDOOR{
 
             CONVERTER::Transition *Transition_input=new CONVERTER::Transition();
             xml_node<> *Transition = transitionMember->first_node("Transition");
+            xml_node<> *Description = Transition->first_node("gml:description");
+            if(Description!=NULL)
+                Transition_input->Description=OSM::trim(Description->value());
             Transition_input->osm_id=OSM_WAY_ID--;
             Transition_input->gml_id=Transition->first_attribute("gml:id")->value();
             xml_node<> *LineString = Transition->first_node("geometry")->first_node("gml:LineString");

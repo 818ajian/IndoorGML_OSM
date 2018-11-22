@@ -114,7 +114,17 @@ namespace OSM {
                 tag->append_attribute(doc1.allocate_attribute("k", "name"));
                 tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((((CONVERTER::CellSpaceBoundary*) it)->name).c_str())));
                 way->append_node(tag);
-            }//name이 있으면 name추가
+            }//name이 있으면 name 추가
+            if(((CONVERTER::CellSpace*)it)->Description.c_str()!=NULL) {
+                std::vector<std::string> splittedStrings = split(it->Description, ';');
+                for (auto it : splittedStrings) {
+                    std::vector<std::string> token = split(it, '=');
+                    rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
+                    tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(Write_tag(token[0]).c_str())));
+                    tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
+                    way->append_node(tag);
+                }
+            }//Description이 있으면 Description 추가
             root->append_node(way);
         }//append Cellspaceboundary
 
@@ -129,6 +139,16 @@ namespace OSM {
                 nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::Transition*)it)->pos_vector[i]->osm_id).c_str())));
                 way->append_node(nd);
             }
+            if(((CONVERTER::CellSpace*)it)->Description.c_str()!=NULL) {
+                std::vector<std::string> splittedStrings = split(it->Description, ';');
+                for (auto it : splittedStrings) {
+                    std::vector<std::string> token = split(it, '=');
+                    rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
+                    tag->append_attribute(doc1.allocate_attribute("k", doc1.allocate_string(Write_tag(token[0]).c_str())));
+                    tag->append_attribute(doc1.allocate_attribute("v", doc1.allocate_string((token[1].c_str()))));
+                    way->append_node(tag);
+                }
+            }//Description이 있으면 Description 추가
             root->append_node(way);
         }//append Transition
 
