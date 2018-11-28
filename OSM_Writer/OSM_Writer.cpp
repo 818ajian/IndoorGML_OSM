@@ -60,7 +60,7 @@ namespace OSM {
             rapidxml::xml_node<> *node = doc1.allocate_node(rapidxml::node_element, "node");
             node->append_attribute(doc1.allocate_attribute("action", "modify"));
             node->append_attribute(doc1.allocate_attribute("visible", "true"));
-            node->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            node->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(it->osm_id.c_str())));
             node->append_attribute(doc1.allocate_attribute("lat", doc1.allocate_string((((CONVERTER::Pos*)it)->latitude).c_str())));
             node->append_attribute(doc1.allocate_attribute("lon", doc1.allocate_string((((CONVERTER::Pos*)it)->longitude).c_str())));
             root->append_node(node);
@@ -70,12 +70,12 @@ namespace OSM {
         for(auto it :IC_vector){//Cellspace
             if(it->type!=1)continue;
             rapidxml::xml_node<> *way  = doc1.allocate_node(rapidxml::node_element, "way");
-            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(it->osm_id.c_str())));
             way->append_attribute(doc1.allocate_attribute("action", "modify"));
             way->append_attribute(doc1.allocate_attribute("visible", "true"));
             for(int i=0;i < ((CONVERTER::CellSpace*)it)->pos_vector.size(); i++) {
                 rapidxml::xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
-                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::CellSpace*)it)->pos_vector[i]->osm_id).c_str())));
+                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(((CONVERTER::CellSpace*)it)->pos_vector[i]->osm_id.c_str())));
                 way->append_node(nd);
             }
             if(((CONVERTER::CellSpace*)it)->name.c_str()!=NULL) {
@@ -101,12 +101,12 @@ namespace OSM {
         for(auto it:IC_vector){//CellspaceBoundary
             if(it->type!=2)continue;
             rapidxml::xml_node<> *way  = doc1.allocate_node(rapidxml::node_element, "way");
-            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(it->osm_id.c_str())));
             way->append_attribute(doc1.allocate_attribute("action", "modify"));
             way->append_attribute(doc1.allocate_attribute("visible", "true"));
             for(int i=0;i < ((CONVERTER::CellSpaceBoundary*)it)->pos_vector.size(); i++) {
                 rapidxml::xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
-                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::CellSpaceBoundary*)it)->pos_vector[i]->osm_id).c_str())));
+                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((((CONVERTER::CellSpaceBoundary*)it)->pos_vector[i]->osm_id).c_str())));
                 way->append_node(nd);
             }
             if(((CONVERTER::CellSpaceBoundary*)it)->name!="") {
@@ -131,12 +131,12 @@ namespace OSM {
         for(auto it:IC_vector){//Transition
             if(it->type!=4)continue;
             rapidxml::xml_node<> *way  = doc1.allocate_node(rapidxml::node_element, "way");
-            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            way->append_attribute(doc1.allocate_attribute("id", doc1.allocate_string((it->osm_id).c_str())));
             way->append_attribute(doc1.allocate_attribute("action", "modify"));
             way->append_attribute(doc1.allocate_attribute("visible", "true"));
             for(int i=0;i < ((CONVERTER::Transition*)it)->pos_vector.size(); i++) {
                 rapidxml::xml_node<> *nd = doc1.allocate_node(rapidxml::node_element, "nd");
-                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(((CONVERTER::Transition*)it)->pos_vector[i]->osm_id).c_str())));
+                nd->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((((CONVERTER::Transition*)it)->pos_vector[i]->osm_id).c_str())));
                 way->append_node(nd);
             }
             if(((CONVERTER::CellSpace*)it)->Description.c_str()!=NULL) {
@@ -162,7 +162,7 @@ namespace OSM {
             if(it->type!=1)continue;
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "way"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             relation_cellspace->append_node(member);
         }
         rapidxml::xml_node<> *tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -179,7 +179,7 @@ namespace OSM {
             if(it->type!=2)continue;
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "way"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             relation_cellspaceboundary->append_node(member);
         }
         tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -196,7 +196,7 @@ namespace OSM {
             if(it->type!=3)continue;
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "node"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             relation_state->append_node(member);
         }
         tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -213,7 +213,7 @@ namespace OSM {
             if(it->type!=4)continue;
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "way"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             relation_transition->append_node(member);
         }
         tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -231,12 +231,12 @@ namespace OSM {
             relation->append_attribute(doc1.allocate_attribute("visible", "true"));
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "node"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             member->append_attribute(doc1.allocate_attribute("role", "State"));
             relation->append_node(member);
             member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "way"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->duality->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->duality->osm_id).c_str())));
             member->append_attribute(doc1.allocate_attribute("role", "CellSpace"));
             relation->append_node(member);
             tag = doc1.allocate_node(rapidxml::node_element, "tag");
@@ -255,11 +255,11 @@ namespace OSM {
             relation->append_attribute(doc1.allocate_attribute("visible", "true"));
             rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
             member->append_attribute(doc1.allocate_attribute("type", "way"));
-            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+            member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
             member->append_attribute(doc1.allocate_attribute("role", "Transition"));
             rapidxml::xml_node<> * member_1  = doc1.allocate_node(rapidxml::node_element, "member");
             member_1->append_attribute(doc1.allocate_attribute("type", "way"));
-            member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->duality->osm_id).c_str())));
+            member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->duality->osm_id).c_str())));
             member_1->append_attribute(doc1.allocate_attribute("role", "CellSpaceBoundary"));
             relation->append_node(member);
             relation->append_node(member_1);
@@ -280,11 +280,11 @@ namespace OSM {
                 relation->append_attribute(doc1.allocate_attribute("visible", "true"));
                 rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
                 member->append_attribute(doc1.allocate_attribute("type", "node"));
-                member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+                member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
                 member->append_attribute(doc1.allocate_attribute("role", "State"));
                 rapidxml::xml_node<> *member_1 = doc1.allocate_node(rapidxml::node_element, "member");
                 member_1->append_attribute(doc1.allocate_attribute("type", "way"));
-                member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it1->osm_id).c_str())));
+                member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it1->osm_id).c_str())));
                 member_1->append_attribute(doc1.allocate_attribute("role", "Transition"));
                 relation->append_node(member);
                 relation->append_node(member_1);
@@ -306,11 +306,11 @@ namespace OSM {
                 relation->append_attribute(doc1.allocate_attribute("visible", "true"));
                 rapidxml::xml_node<> *member  = doc1.allocate_node(rapidxml::node_element, "member");
                 member->append_attribute(doc1.allocate_attribute("type", "way"));
-                member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it->osm_id).c_str())));
+                member->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it->osm_id).c_str())));
                 member->append_attribute(doc1.allocate_attribute("role", "CellSpace"));
                 rapidxml::xml_node<> *member_1 = doc1.allocate_node(rapidxml::node_element, "member");
                 member_1->append_attribute(doc1.allocate_attribute("type", "way"));
-                member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string(std::to_string(it1->osm_id).c_str())));
+                member_1->append_attribute(doc1.allocate_attribute("ref", doc1.allocate_string((it1->osm_id).c_str())));
                 member_1->append_attribute(doc1.allocate_attribute("role", "CellSpaceBoundary"));
                 relation->append_node(member);
                 relation->append_node(member_1);

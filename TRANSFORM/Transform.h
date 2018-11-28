@@ -34,13 +34,14 @@ namespace CONVERTER {
     */
     class IC {
     public:
-        int osm_id;
         int type;
         std::string gml_id;
+        std::string osm_id;
         std::string Description;
         IC *duality = NULL;
         std::vector<IC *> partialboundedBy;
         std::vector<IC *> connects;
+        std::vector<IC *> inner;
 
     };
     /**
@@ -69,6 +70,7 @@ namespace CONVERTER {
     public:
         std::string name;
         std::vector<Pos *> pos_vector;
+        int storey=0;
         CellSpace(){
             type=1;
         }

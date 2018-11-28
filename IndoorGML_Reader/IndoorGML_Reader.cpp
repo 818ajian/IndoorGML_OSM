@@ -50,7 +50,7 @@ namespace INDOOR{
             cellSpace_input->name=OSM::trim(name->value());
             if(Description!=NULL)
                 cellSpace_input->Description=OSM::trim(Description->value());
-            cellSpace_input->osm_id=OSM_WAY_ID--;
+            cellSpace_input->osm_id=to_string(OSM_WAY_ID--);
             xml_node<> *LinearRing = CellSpace->first_node("cellSpaceGeometry")->first_node("Geometry2D")->first_node("gml:Polygon")->first_node("gml:exterior")->first_node("gml:LinearRing");
             for(xml_node<>*gml_pos=LinearRing->first_node("gml:pos"); gml_pos; gml_pos= gml_pos->next_sibling("gml:pos")){
                 CONVERTER::Pos *pos_input=new CONVERTER::Pos();
@@ -59,7 +59,7 @@ namespace INDOOR{
                 pos_input->latitude=splittedStrings[0];
                 pos_input->longitude=splittedStrings[1];
                 pos_input->height=splittedStrings[2];
-                pos_input->osm_id=OSM_NODE_ID--;
+                pos_input->osm_id=to_string(OSM_NODE_ID--);
                 cellSpace_input->pos_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
@@ -77,7 +77,7 @@ namespace INDOOR{
             xml_node<> *Description = CellSpaceBoundary->first_node("gml:description");
             if(Description!=NULL)
                 CellSpaceBoundary_input->Description=OSM::trim(Description->value());
-            CellSpaceBoundary_input->osm_id=OSM_WAY_ID--;
+            CellSpaceBoundary_input->osm_id=to_string(OSM_WAY_ID--);
             CellSpaceBoundary_input->gml_id=CellSpaceBoundary->first_attribute("gml:id")->value();
             xml_node<> *LineString = CellSpaceBoundary->first_node("cellSpaceBoundaryGeometry")->first_node("geometry2D")->first_node("gml:LineString");
             for(xml_node<>*gml_pos=LineString->first_node("gml:pos"); gml_pos; gml_pos= gml_pos->next_sibling("gml:pos")){
@@ -87,7 +87,7 @@ namespace INDOOR{
                 pos_input->latitude=splittedStrings[0];
                 pos_input->longitude=splittedStrings[1];
                 pos_input->height=splittedStrings[2];
-                pos_input->osm_id=OSM_NODE_ID--;
+                pos_input->osm_id=to_string(OSM_NODE_ID--);
                 CellSpaceBoundary_input->pos_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
@@ -112,7 +112,7 @@ namespace INDOOR{
             pos_input->longitude=splittedStrings[1];
             pos_input->height=splittedStrings[2];
             State_input->pos=pos_input;
-            pos_input->osm_id=OSM_NODE_ID--;
+            pos_input->osm_id=to_string(OSM_NODE_ID--);
             State_input->osm_id=pos_input->osm_id;
             IC_vector.push_back(pos_input);
             State_vector.push_back(State_input);
@@ -127,7 +127,7 @@ namespace INDOOR{
             xml_node<> *Description = Transition->first_node("gml:description");
             if(Description!=NULL)
                 Transition_input->Description=OSM::trim(Description->value());
-            Transition_input->osm_id=OSM_WAY_ID--;
+            Transition_input->osm_id=to_string(OSM_WAY_ID--);
             Transition_input->gml_id=Transition->first_attribute("gml:id")->value();
             xml_node<> *LineString = Transition->first_node("geometry")->first_node("gml:LineString");
 
@@ -138,7 +138,7 @@ namespace INDOOR{
                 pos_input->latitude=splittedStrings[0];
                 pos_input->longitude=splittedStrings[1];
                 pos_input->height=splittedStrings[2];
-                pos_input->osm_id=OSM_NODE_ID--;
+                pos_input->osm_id=to_string(OSM_NODE_ID--);
                 Transition_input->pos_vector.push_back(pos_input);
                 IC_vector.push_back(pos_input);
             }
