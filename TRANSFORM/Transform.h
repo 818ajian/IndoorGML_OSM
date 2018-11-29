@@ -35,6 +35,7 @@ namespace CONVERTER {
     class IC {
     public:
         int type;
+        int outer=0;//0 아무것도 아님 1 outer 2 inner
         std::string gml_id;
         std::string osm_id;
         std::string Description;
@@ -70,7 +71,7 @@ namespace CONVERTER {
     public:
         std::string name;
         std::vector<Pos *> pos_vector;
-        int storey=0;
+        int storey=99999;
         CellSpace(){
             type=1;
         }

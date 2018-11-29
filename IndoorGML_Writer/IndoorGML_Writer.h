@@ -22,6 +22,7 @@ namespace INDOOR{
      * @brief split string control IndoorGML Description
      */
     std::vector<std::string> split(std::string& strToSplit, char delimeter);
+    void Min_storey(std::vector<CONVERTER::IC*>);
 }
 
 #endif //INDOORGML2OSM_INDOORGML_WRITER_H

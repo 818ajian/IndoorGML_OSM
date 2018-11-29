@@ -7,14 +7,20 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "string.h"
 namespace INDOOR{
     const std::string height="0.0";
     const std::string boundedby_value="true";
     const std::string srsDimension="3";
     const std::string weight="0.0";
-
-
+    int min_storey=99999;
+    void Min_storey(std::vector<CONVERTER::IC*> input){
+        for(auto it:input) {
+            if(it->type!=1)continue;
+            min_storey = std::min(((CONVERTER::CellSpace*)it)->storey, min_storey);
+        }
+    }
     std::vector<std::string> split(std::string& strToSplit, char delimeter) {
         std::stringstream ss(strToSplit);
         std::string item;
@@ -87,9 +93,10 @@ namespace INDOOR{
         xml_spaceLayerMember->append_node(xml_SpaceLayer);
         xml_SpaceLayer->append_node(xml_nodes);
         xml_SpaceLayer->append_node(xml_edges);
-
+        Min_storey(IC_vector);
         for(auto it : IC_vector) {//cellspace
             if(it->type!=1)continue;
+            if(it->outer!=1)continue;
             rapidxml::xml_node<>* xml_cellSpaceMember = doc1.allocate_node(rapidxml::node_element, "cellSpaceMember");
             rapidxml::xml_node<>* xml_CellSpace = doc1.allocate_node(rapidxml::node_element, "CellSpace");
             xml_CellSpace->append_attribute(doc1.allocate_attribute("gml:id",doc1.allocate_string(it->gml_id.c_str())));
@@ -110,9 +117,9 @@ namespace INDOOR{
                 xml_duality->append_attribute(doc1.allocate_attribute("xlink:href",doc1.allocate_string(("#"+it->duality->gml_id).c_str())));
             xml_description->value(doc1.allocate_string(trim(it->Description).c_str()));
             xml_name->value(doc1.allocate_string((((CONVERTER::CellSpace*)it)->name).c_str()));
+            double EACH_HEIGHT=0.0;
+            EACH_HEIGHT=EACH_HEIGHT+0.0003*(((CONVERTER::CellSpace*)it)->storey-min_storey);
             for(auto it1 : ((CONVERTER::CellSpace*)it)->pos_vector){
-                double EACH_HEIGHT=0.0;
-                EACH_HEIGHT=EACH_HEIGHT+0.001*((CONVERTER::CellSpace*)it)->storey;
                 rapidxml::xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
                 xml_pos->append_attribute(doc1.allocate_attribute("srsDimension",srsDimension.c_str()));
                 xml_pos->value(doc1.allocate_string((it1->longitude+" "+it1->latitude+" "+std::to_string(EACH_HEIGHT)).c_str()));
@@ -126,6 +133,18 @@ namespace INDOOR{
             xml_CellSpace->append_node(xml_bound);
             xml_exterior->append_node(xml_LinearRing);
             xml_Polygon->append_node(xml_exterior);
+            for(auto it1:it->inner){
+                rapidxml:: xml_node<>* xml_interior = doc1.allocate_node(rapidxml::node_element, "gml:interior");
+                rapidxml::xml_node<>* xml_LinearRing = doc1.allocate_node(rapidxml::node_element, "gml:LinearRing");
+                for(auto it2: ((CONVERTER::CellSpace*)it1)->pos_vector){
+                    rapidxml::xml_node<>* xml_pos = doc1.allocate_node(rapidxml::node_element, "gml:pos");
+                    xml_pos->append_attribute(doc1.allocate_attribute("srsDimension",srsDimension.c_str()));
+                    xml_pos->value(doc1.allocate_string((it2->longitude+" "+it2->latitude+" "+std::to_string(EACH_HEIGHT)).c_str()));
+                    xml_LinearRing->append_node(xml_pos);
+                }
+                xml_interior->append_node(xml_LinearRing);
+                xml_Polygon->append_node(xml_interior);
+            }
             xml_Geometry2D->append_node(xml_Polygon);
             xml_cellSpaceGeometry->append_node(xml_Geometry2D);
             xml_CellSpace->append_node(xml_cellSpaceGeometry);
